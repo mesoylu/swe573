@@ -1,0 +1,41 @@
+title Create Community
+
+actor User
+
+participant UI
+
+participant "Community \n Controller" as CommunityController
+
+participant DB
+
+User->UI:Clicks "Create Community" Button
+User<--UI:Returns create community form
+
+note over User:-name(mandatory,must be unique)\n-description(mandatory)\n-url(must be unique)\n-image
+
+User->UI:Fills the form\nand clicks submit button
+
+alt failed verification
+UI-->User:Returns form to the user with warnings
+else successful verification
+UI->CommunityController:Sends the information\nto the CommunityController
+end
+              
+note over CommunityController:-name\n-description\n-url\n-image\n-dateCreated          
+              
+              
+alt name exists
+CommunityController-->User:Returns error code
+else url exists
+CommunityController-->User:Returns error code
+else other errors
+CommunityController-->User:Returns error code
+else successful verification
+CommunityController->DB:Inserts the information\nto the DB table named community
+end
+
+DB-->CommunityController: Returns success code
+
+CommunityController-->UI: Redirects UI to show community view
+
+UI-->User: Renders community page

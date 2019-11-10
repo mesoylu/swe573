@@ -29,18 +29,28 @@ class DataField(models.Model):
     )
     is_required = models.BooleanField()
     # todo OneToOne or ManyToOne // should we add more than one tag to a data field
-    wikidata_item = models.OneToOneField(
+    wikidata_item = models.ForeignKey(
         WikidataItem,
         null=True,
+        blank=True,
         on_delete=models.PROTECT
     )
 
+    def __str__(self):
+        return self.name
 
 
+class DataType(models.Model):
+    title = models.CharField(max_length=100)
+    # todo update class diagram for this property
+    body = models.TextField(max_length=2000)
+    data_fields = models.ManyToManyField(
+        DataField
+    )
 
-#class DataType(models.Model):
-#    title = models.CharField(max_length=100)
-#    description = models.TextField(max_length=2000)
+    def __str__(self):
+        return self.title
+
 #
 #
 #class User(models.Model):

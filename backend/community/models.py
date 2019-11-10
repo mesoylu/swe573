@@ -11,24 +11,37 @@ class DataFieldType(models.Model):
     def __str__(self):
         return self.name
 
+
+class WikidataItem(models.Model):
+    item = models.CharField(max_length=25)
+    label = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.label
+
 class DataField(models.Model):
     name = models.CharField(max_length=50)
     # todo i should either use enumeration on type or open a new table for type
     type = models.OneToOneField(
         DataFieldType,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
     is_required = models.BooleanField()
-    #wikidata_item = models.OneToOneField(WikidataItem,null=true)
+    # todo OneToOne or ManyToOne // should we add more than one tag to a data field
+    wikidata_item = models.OneToOneField(
+        WikidataItem,
+        null=True,
+        on_delete=models.PROTECT
+    )
+
+
+
 
 #class DataType(models.Model):
 #    title = models.CharField(max_length=100)
 #    description = models.TextField(max_length=2000)
 #
-#class WikidataItem(models.Model):
-#    item = models.CharField(max_length=20)
-#    label = models.CharField(max_length=100)
-#    description = models.CharField(max_length=200)
 #
 #class User(models.Model):
 #    email = models.CharField(max_length=200)

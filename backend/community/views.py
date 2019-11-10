@@ -4,4 +4,5 @@ from .services import UserService
 
 # Create your views here.
 def login(request):
-    return HttpResponse(UserService.login("eleman"))
+    data = list(UserService.login("eleman"))
+    return JsonResponse(data,safe=False)

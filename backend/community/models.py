@@ -35,7 +35,7 @@ class DataField(models.Model):
         max_length=50
     )
     # todo i should either use enumeration on type or open a new table for type
-    type = models.OneToOneField(
+    type = models.ForeignKey(
         DataFieldType,
         on_delete=models.PROTECT
     )

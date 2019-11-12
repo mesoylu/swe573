@@ -8,6 +8,6 @@ def login(request):
     data = list(UserService.login("eleman"))
     return JsonResponse(data,safe=False)
 
-def getCommunity(request,community_id):
-    data = list(CommunityService.getCommunity(community_id))
+def getCommunity(request,url):
+    data = list(CommunityService.getCommunity(url))
     return JsonResponse(data, safe=False)

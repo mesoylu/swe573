@@ -16,3 +16,11 @@ def getCommunity(request,url):
 def getCommunityMembers(request,url):
     data = list(CommunityService.getCommunityMembers(url))
     return JsonResponse(data, safe=False)
+
+def getCommunityDataTypes(request,url):
+    data = list(CommunityService.getCommunityDataTypes(url))
+    return JsonResponse(data, safe=False)
+
+def getCommunityDataFields(request,url):
+    data = list(CommunityService.getCommunityDataFields(url))
+    return JsonResponse(data, safe=False)

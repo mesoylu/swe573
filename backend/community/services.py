@@ -12,5 +12,17 @@ class UserService:
 class CommunityService:
 
     def getCommunity(url):
-        return Community.objects.filter(url=url).values()
+        return Community.objects.filter(url=url).values(
+            'id',
+            'name',
+            'description',
+            'creator__username',
+            'date_created'
+        )
 
+    def getCommunityMembers(url):
+        return Community.objects.filter(url=url).values(
+            'members__id',
+            'members__username',
+            'members__date_registered'
+        )

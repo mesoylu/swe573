@@ -145,22 +145,6 @@ class DataType(models.Model):
         return self.title
 
 
-class Post(models.Model):
-    data_type = models.ForeignKey(
-        DataType,
-        on_delete=models.PROTECT
-    )
-    date_created = models.DateTimeField(
-        auto_now=True
-    )
-    # todo these two should come from vote table, right now it is a placeholder
-    upvote_count = models.IntegerField()
-    downvote_count = models.IntegerField()
-
-    def __str__(self):
-        return self.data_type.title + " : " + str(self.pk)
-
-
 # todo this class will be added to diagram
 class FieldValue(models.Model):
     data_field = models.ForeignKey(
@@ -177,6 +161,26 @@ class FieldValue(models.Model):
 
     def __str__(self):
         return self.data_field.name + " : " + self.value
+
+
+class Post(models.Model):
+    data_type = models.ForeignKey(
+        DataType,
+        on_delete=models.PROTECT
+    )
+    date_created = models.DateTimeField(
+        auto_now=True
+    )
+    # todo these two should come from vote table, right now it is a placeholder
+    upvote_count = models.IntegerField()
+    downvote_count = models.IntegerField()
+    field_values = models.ManyToManyField(
+        FieldValue
+    )
+
+    def __str__(self):
+        return self.data_type.title + " : " + str(self.pk)
+
 
 
 

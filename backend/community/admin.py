@@ -4,9 +4,9 @@ from django.contrib import admin
 from .models import *
 
 # admin.site.register(DataFieldType)
-#
-# admin.site.register(WikidataItem)
-#
+
+admin.site.register(WikidataItem)
+
 # admin.site.register(DataField)
 #
 # admin.site.register(DataType)

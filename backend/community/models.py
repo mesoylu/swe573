@@ -3,9 +3,27 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from datetime import datetime
+from django.contrib.postgres.fields import JSONField
 
 
+class WikidataItem(models.Model):
+    item = models.CharField(
+        max_length=25
+    )
+    label = models.CharField(
+        max_length=100
+    )
+    description = models.CharField(
+        max_length=200
+    )
+    # todo this field would hold information from wikidata item
+    data = JSONField(
+        blank=True,
+        null=True
+    )
 
+    def __str__(self):
+        return self.label
 
 #
 # class DataFieldType(models.Model):

@@ -145,22 +145,6 @@ class DataType(models.Model):
         return self.title
 
 
-# todo this class will be added to diagram
-class FieldValue(models.Model):
-    data_field = models.ForeignKey(
-        DataField,
-        on_delete=models.PROTECT
-    )
-    post = models.ForeignKey(
-        Post,
-        on_delete=models.PROTECT
-    )
-    value = models.CharField(
-        max_length=200
-    )
-
-    def __str__(self):
-        return self.data_field.name + " : " + self.value
 
 
 class Post(models.Model):
@@ -174,14 +158,31 @@ class Post(models.Model):
     # todo these two should come from vote table, right now it is a placeholder
     upvote_count = models.IntegerField()
     downvote_count = models.IntegerField()
-    field_values = models.ManyToManyField(
-        FieldValue
+    community = models.ForeignKey(
+        Community,
+        on_delete=models.PROTECT
     )
 
     def __str__(self):
         return self.data_type.title + " : " + str(self.pk)
 
 
+# todo this class will be added to diagram
+class FieldValue(models.Model):
+    data_field = models.ForeignKey(
+        DataField,
+        on_delete=models.PROTECT
+    )
+    value = models.CharField(
+        max_length=200
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.data_field.name + " : " + self.value
 
 
 #

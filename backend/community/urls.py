@@ -8,7 +8,8 @@ urlpatterns = [
         path('', views.getCommunity),
         path('members/', views.getCommunityMembers),
         path('datatypes/', views.getCommunityDataTypes),
-        path('datafields/', views.getCommunityDataFields)
+        path('datafields/', views.getCommunityDataFields),
+        path('posts/', views.getCommunityPosts),
     ])
     )
 ]

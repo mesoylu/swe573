@@ -47,3 +47,7 @@ class CommunityService:
         #)
         #return DataField.objects.filter(id=data[0]).values()
 
+    def getCommunityPosts(url):
+        return Community.objects.filter(url=url).values(
+            'field_value'
+        )

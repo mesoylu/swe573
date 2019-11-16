@@ -24,3 +24,7 @@ def getCommunityDataTypes(request,url):
 def getCommunityDataFields(request,url):
     data = list(CommunityService.getCommunityDataFields(url))
     return JsonResponse(data, safe=False)
+
+def getCommunityPosts(request,url):
+    data = list(CommunityService.getCommunityPosts(url))
+    return JsonResponse(data, safe=False)

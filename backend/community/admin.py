@@ -8,8 +8,8 @@ from .models import *
 admin.site.register(WikidataItem)
 
 admin.site.register(DataField)
-#
-# admin.site.register(DataType)
+
+admin.site.register(DataType)
 #
 # admin.site.register(User)
 #

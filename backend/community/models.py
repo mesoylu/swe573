@@ -61,6 +61,25 @@ class DataField(models.Model):
         return self.name
 
 
+class DataType(models.Model):
+    title = models.CharField(
+        max_length=100
+    )
+    # todo update class diagram for this property
+    body = models.TextField(
+        max_length=2000
+    )
+    data_fields = models.ManyToManyField(
+        DataField,
+        # todo it is hard to give callable to limit_choices_to property
+        # limit_choices_to={'community': 1},
+    )
+
+    def __str__(self):
+        return self.title
+
+
+
 #
 # class DataFieldType(models.Model):
 #     name = models.CharField(

@@ -11,7 +11,8 @@ urlpatterns = [
         path('datafields/', views.getCommunityDataFields),
         path('posts/', views.getCommunityPosts),
     ])
-    )
+    ),
+    path('wiki', views.wiki)
 ]
 
 

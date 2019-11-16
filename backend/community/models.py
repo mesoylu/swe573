@@ -49,6 +49,7 @@ class User(models.Model):
     #     null=True,
     #     blank=True
     # )
+    # todo image should be deleted when user changes profile photo
     image = models.ImageField(
         upload_to=path_and_rename('images')
     )

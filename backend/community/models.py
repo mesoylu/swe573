@@ -87,6 +87,47 @@ class User(models.Model):
         return self.username
 
 
+class Community(models.Model):
+    # todo should we proceed with reddit style naming conventions
+    name = models.SlugField(
+        max_length=100,
+        unique=True
+    )
+    description = models.TextField(
+        max_length=300
+    )
+    # url = models.CharField(
+    #     max_length=100,
+    #     unique=True
+    # )
+    # todo research on audio video image upload on django
+    # image_path = models.CharField(
+    #     max_length=100,
+    #     null=True,
+    #     blank=True
+    # )
+    image = models.ImageField(
+        upload_to=path_and_rename,
+        blank=True,
+        null=True
+    )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name="creator"
+    )
+    members = models.ManyToManyField(
+        User,
+        related_name="member"
+    )
+    date_created = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class WikidataItem(models.Model):
     item = models.CharField(
         max_length=25

@@ -1,4 +1,18 @@
 from .models import *
+from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
+
+class WikidataService:
+
+    def query(self):
+        # send any sparql query to the wikidata query service and get full result back
+        # here we use an example that counts the number of humans
+        sparql_query = """
+        SELECT distinct ?item ?itemLabel ?itemDescription WHERE{  
+          ?item rdfs:label "tool"@en.  
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
+        }
+        """
+        return return_sparql_query_results(sparql_query)
 
 
 # todo the methods from class diagram will be written here

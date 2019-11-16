@@ -9,6 +9,10 @@ def login(request):
     data = list(UserService.login("eleman"))
     return JsonResponse(data,safe=False)
 
+def wiki(request):
+    data = WikidataService.query(WikidataService)
+    return JsonResponse(data, safe=False)
+
 def getCommunity(request,url):
     data = list(CommunityService.getCommunity(url))
     return JsonResponse(data, safe=False)

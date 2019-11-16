@@ -4,7 +4,20 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.postgres.fields import JSONField
+from enum import Enum
 
+class DataFieldTypes(Enum):
+    str = "string"
+    bl = "boolean"
+    dec = "decimal"
+    fl = "float"
+    dur = "duration"
+    dt = "dateTime"
+    uri = "anyURI"
+
+    @classmethod
+    def all(self):
+        return self
 
 class WikidataItem(models.Model):
     item = models.CharField(
@@ -24,6 +37,29 @@ class WikidataItem(models.Model):
 
     def __str__(self):
         return self.label
+
+
+class DataField(models.Model):
+    name = models.CharField(
+        max_length=50
+    )
+    # todo i should either use enumeration on type or open a new table for type
+    type = models.CharField(
+        max_length=3,
+        choices=[(tag.name, tag.value) for tag in DataFieldTypes]
+    )
+    is_required = models.BooleanField()
+    # todo OneToOne or ManyToOne // should we add more than one tag to a data field
+    wikidata_item = models.ForeignKey(
+        WikidataItem,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.name
+
 
 #
 # class DataFieldType(models.Model):

@@ -19,6 +19,35 @@ class DataFieldTypes(Enum):
     def all(self):
         return self
 
+
+class User(models.Model):
+    username = models.SlugField(
+        max_length=100,
+        unique=True
+    )
+    password = models.CharField(
+        max_length=32
+    )
+    email = models.EmailField(
+        max_length=200,
+        unique=True
+    )
+    # image_path = models.CharField(
+    #     max_length=100,
+    #     null=True,
+    #     blank=True
+    # )
+    image = models.ImageField(
+        upload_to='images'
+    )
+    date_registered = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return self.username
+
+
 class WikidataItem(models.Model):
     item = models.CharField(
         max_length=25

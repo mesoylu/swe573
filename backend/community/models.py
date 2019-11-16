@@ -79,6 +79,25 @@ class DataType(models.Model):
         return self.title
 
 
+class Post(models.Model):
+    data_type = models.ForeignKey(
+        DataType,
+        on_delete=models.PROTECT
+    )
+    date_created = models.DateTimeField(
+        auto_now=True
+    )
+    # todo these two should come from vote table, right now it is a placeholder
+    upvote_count = models.IntegerField()
+    downvote_count = models.IntegerField()
+    fields = JSONField(
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return self.data_type.title + " : " + str(self.pk)
+
 
 #
 # class DataFieldType(models.Model):

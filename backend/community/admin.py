@@ -14,7 +14,7 @@ admin.site.register(DataType)
 # admin.site.register(User)
 #
 # admin.site.register(Community)
-#
-# admin.site.register(Post)
+
+admin.site.register(Post)
 #
 # admin.site.register(FieldValue)

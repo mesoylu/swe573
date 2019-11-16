@@ -12,7 +12,8 @@ urlpatterns = [
         path('posts/', views.getCommunityPosts),
     ])
     ),
-    path('wiki', views.wiki)
+    path('wiki', views.wiki),
+    path('wikiItem', views.wikiItem)
 ]
 
 

@@ -15,6 +15,12 @@ def wiki(request):
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)
 
+@csrf_exempt
+def wikiItem(request):
+    query = request.POST.get("query","")
+    data = WikidataService.getItem(query)
+    return JsonResponse(data, safe=False)
+
 def getCommunity(request,url):
     data = list(CommunityService.getCommunity(url))
     return JsonResponse(data, safe=False)

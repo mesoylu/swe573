@@ -1,10 +1,28 @@
 import datetime
+import os
 
 from django.db import models
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.postgres.fields import JSONField
 from enum import Enum
+from uuid import uuid4
+
+
+# todo should this function reside here
+def path_and_rename(path):
+    def wrapper(instance, filename):
+        ext = filename.split('.')[-1]
+        # get filename
+        if instance.pk:
+            filename = '{}.{}'.format(instance.pk, ext)
+        else:
+            # set filename as random string
+            filename = '{}.{}'.format(uuid4().hex, ext)
+        # return the whole path to the file
+        return os.path.join(path, filename)
+    return wrapper
+
 
 class DataFieldTypes(Enum):
     str = "string"
@@ -38,7 +56,7 @@ class User(models.Model):
     #     blank=True
     # )
     image = models.ImageField(
-        upload_to='images'
+        upload_to=path_and_rename('images')
     )
     date_registered = models.DateTimeField(
         auto_now=True

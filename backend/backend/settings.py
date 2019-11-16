@@ -123,4 +123,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = '/public/'
+MEDIA_ROOT = '/Users/erensoylu/swe573/backend/public/'
+
+MEDIA_URL = '/public/'

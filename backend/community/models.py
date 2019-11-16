@@ -7,15 +7,40 @@ from datetime import datetime
 from django.contrib.postgres.fields import JSONField
 from enum import Enum
 from uuid import uuid4
+from django.utils.deconstruct import deconstructible
 
 
 # todo should this function reside here
-def path_and_rename(path):
-    def wrapper(instance, filename):
+# todo this function has a reported bug
+# def path_and_rename(path):
+#     def wrapper(instance, filename):
+#         ext = filename.split('.')[-1]
+#         # get filename
+#         if instance.pk:
+#             filename = '{}.{}'.format(instance.pk, ext)
+#         else:
+#             # set filename as random string
+#             filename = '{}.{}'.format(uuid4().hex, ext)
+#         # return the whole path to the file
+#         return os.path.join(path, filename)
+#     return wrapper
+
+
+@deconstructible
+class PathAndRename(object):
+
+    def __init__(self, sub_path):
+        self.path = sub_path
+
+    def __call__(self, instance, filename):
         ext = filename.split('.')[-1]
+        # set filename as random string
         filename = '{}.{}'.format(uuid4().hex, ext)
-        return os.path.join(path, filename)
-    return wrapper
+        # return the whole path to the file
+        return os.path.join(self.path, filename)
+
+
+path_and_rename = PathAndRename("images")
 
 
 class DataFieldTypes(Enum):
@@ -49,9 +74,10 @@ class User(models.Model):
     #     null=True,
     #     blank=True
     # )
-    # todo image should be deleted when user changes profile photo
     image = models.ImageField(
-        upload_to=path_and_rename('images')
+        upload_to=path_and_rename,
+        blank=True,
+        null=True
     )
     date_registered = models.DateTimeField(
         auto_now=True

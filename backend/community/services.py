@@ -2,6 +2,7 @@ from .models import *
 from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
 
+
 class WikidataService:
 
     def query(query):
@@ -12,7 +13,7 @@ class WikidataService:
           ?item rdfs:label "%s"@en.  
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
         }
-        """%query
+        """ % query
         return return_sparql_query_results(sparql_query)
 
 
@@ -68,17 +69,12 @@ class CommunityService:
             'datafield__is_required',
             'datafield__wikidata_item__item'
         )
-        #data = Community.objects.filter(name=name).values(
+        # data = Community.objects.filter(name=name).values(
         #    'id'
-        #)
-        #return DataField.objects.filter(id=data[0]).values()
+        # )
+        # return DataField.objects.filter(id=data[0]).values()
 
     def getCommunityPosts(name):
         return Community.objects.filter(name=name).values(
             'field_value'
         )
-
-
-
-
-

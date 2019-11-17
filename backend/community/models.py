@@ -65,6 +65,7 @@ class UserRoles(Enum):
     def all(self):
         return self
 
+
 class User(models.Model):
     username = models.SlugField(
         max_length=100,
@@ -257,7 +258,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.data_type.title + " : " + str(self.pk)
-
 
 #
 # class DataFieldType(models.Model):

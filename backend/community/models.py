@@ -57,6 +57,14 @@ class DataFieldTypes(Enum):
         return self
 
 
+class UserRoles(Enum):
+    a = "admin"
+    s = "standard"
+
+    @classmethod
+    def all(self):
+        return self
+
 class User(models.Model):
     username = models.SlugField(
         max_length=100,

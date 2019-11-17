@@ -124,6 +124,11 @@ class Community(models.Model):
         User,
         on_delete=models.PROTECT
     )
+    members = models.ManyToManyField(
+        User,
+        through='Membership',
+        related_name='members'
+    )
     date_created = models.DateTimeField(
         auto_now=True
     )

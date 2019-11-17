@@ -14,9 +14,17 @@ class MembershipSerializer(serializers.ModelSerializer):
         ]
 
 
+class PostSerializer(serializers.ModelSerializer):
+    data_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
     communities = MembershipSerializer(many=True)
-    posts = serializers.StringRelatedField(many=True)
+    user_posts = PostSerializer(many=True)
 
     class Meta:
         model = User
@@ -24,5 +32,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommunitySerializer(serializers.ModelSerializer):
-    pass
+    creator = serializers.StringRelatedField()
+    members = serializers.StringRelatedField(many=True)
+    data_types = serializers.StringRelatedField(many=True)
+    data_fields = serializers.StringRelatedField(many=True)
+    community_posts = PostSerializer(many=True)
+
+    class Meta:
+        model = Community
+        fields = '__all__'
 

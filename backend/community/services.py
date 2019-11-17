@@ -36,13 +36,15 @@ class UserService:
 class CommunityService:
 
     def getCommunity(name):
-        return Community.objects.filter(name=name).values(
-            'id',
-            'name',
-            'description',
-            'creator__username',
-            'date_created'
-        )
+        # return Community.objects.filter(name=name).values(
+        #     'id',
+        #     'name',
+        #     'description',
+        #     'creator__username',
+        #     'date_created'
+        # )
+        community = Community.objects.filter(name=name)
+        return CommunitySerializer(community, many=True).data
 
     # todo should i know when member joined a community
     def getCommunityMembers(name):

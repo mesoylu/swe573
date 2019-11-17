@@ -206,7 +206,8 @@ class DataField(models.Model):
     )
     community = models.ForeignKey(
         Community,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='data_fields'
     )
 
     def __str__(self):
@@ -232,7 +233,8 @@ class DataType(models.Model):
     )
     community = models.ForeignKey(
         Community,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='data_types'
     )
 
     def __str__(self):
@@ -269,15 +271,16 @@ class Post(models.Model):
     creator = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
-        related_name='posts'
+        related_name='user_posts'
     )
     community = models.ForeignKey(
         Community,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='community_posts'
     )
 
     def __str__(self):
-        return self.title
+        return self.url
 
     def save(self, *args, **kwargs):
         self.url = slugify(self.title)

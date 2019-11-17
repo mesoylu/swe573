@@ -185,7 +185,7 @@ class DataType(models.Model):
     body = models.TextField(
         max_length=2000
     )
-    data_fields = models.ManyToManyField(
+    fields = models.ManyToManyField(
         DataField,
         # todo it is hard to give callable to limit_choices_to property
         # limit_choices_to={'community': 1},

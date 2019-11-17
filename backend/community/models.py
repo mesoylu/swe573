@@ -147,7 +147,8 @@ class Membership(models.Model):
     )
     user = models.ForeignKey(
         User,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='communities'
     )
     date_joined = models.DateTimeField(
         auto_now=True
@@ -254,7 +255,8 @@ class Post(models.Model):
     )
     creator = models.ForeignKey(
         User,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='posts'
     )
     community = models.ForeignKey(
         Community,

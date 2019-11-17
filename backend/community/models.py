@@ -115,16 +115,36 @@ class Community(models.Model):
         User,
         on_delete=models.PROTECT
     )
-    members = models.ManyToManyField(
-        User,
-        related_name="member"
-    )
     date_created = models.DateTimeField(
         auto_now=True
     )
 
     def __str__(self):
         return self.name
+
+
+class Membership(models.Model):
+    class Meta:
+        unique_together = [['community', 'user']]
+
+    community = models.ForeignKey(
+        Community,
+        on_delete=models.PROTECT
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT
+    )
+    date_joined = models.DateTimeField(
+        auto_now=True
+    )
+    role = models.CharField(
+        max_length=1,
+        choices=[(tag.name, tag.value) for tag in UserRoles]
+    )
+
+    def __str__(self):
+        return self.community.name + " : " + self.user.username + " : " + self.role
 
 
 class WikidataItem(models.Model):

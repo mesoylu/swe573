@@ -34,3 +34,7 @@ def getCommunityDataFields(request,name):
 def getCommunityPosts(request,name):
     data = list(CommunityService.getCommunityPosts(name))
     return JsonResponse(data, safe=False)
+
+def getUser(request,username):
+    data = list(UserService.getUser(username))
+    return JsonResponse(data, safe=False)

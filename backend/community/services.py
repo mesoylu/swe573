@@ -1,4 +1,5 @@
 from .models import *
+from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
 
 class WikidataService:
@@ -21,6 +22,14 @@ class UserService:
 
     def login(data):
         return User.objects.values()
+
+    def getUser(username):
+        # return User.objects.filter(username=username).values_list(
+        #     'username',
+        #     'membership__community__name'
+        # )
+        user = User.objects.filter(username=username)
+        return UserSerializer(user, many=True).data
 
 
 class CommunityService:
@@ -68,3 +77,8 @@ class CommunityService:
         return Community.objects.filter(name=name).values(
             'field_value'
         )
+
+
+
+
+

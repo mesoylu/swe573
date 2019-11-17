@@ -15,6 +15,9 @@ urlpatterns = [
         path('posts/', views.getCommunityPosts),
     ])
     ),
+    path('u/<username>/', include([
+        path('', views.getUser),
+    ])),
     path('wiki', views.wiki)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

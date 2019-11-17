@@ -15,22 +15,22 @@ def wiki(request):
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)
 
-def getCommunity(request,url):
-    data = list(CommunityService.getCommunity(url))
+def getCommunity(request,name):
+    data = list(CommunityService.getCommunity(name))
     return JsonResponse(data, safe=False)
 
-def getCommunityMembers(request,url):
-    data = list(CommunityService.getCommunityMembers(url))
+def getCommunityMembers(request,name):
+    data = list(CommunityService.getCommunityMembers(name))
     return JsonResponse(data, safe=False)
 
-def getCommunityDataTypes(request,url):
-    data = list(CommunityService.getCommunityDataTypes(url))
+def getCommunityDataTypes(request,name):
+    data = list(CommunityService.getCommunityDataTypes(name))
     return JsonResponse(data, safe=False)
 
-def getCommunityDataFields(request,url):
-    data = list(CommunityService.getCommunityDataFields(url))
+def getCommunityDataFields(request,name):
+    data = list(CommunityService.getCommunityDataFields(name))
     return JsonResponse(data, safe=False)
 
-def getCommunityPosts(request,url):
-    data = list(CommunityService.getCommunityPosts(url))
+def getCommunityPosts(request,name):
+    data = list(CommunityService.getCommunityPosts(name))
     return JsonResponse(data, safe=False)

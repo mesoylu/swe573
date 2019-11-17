@@ -113,8 +113,7 @@ class Community(models.Model):
     )
     creator = models.ForeignKey(
         User,
-        on_delete=models.PROTECT,
-        related_name="creator"
+        on_delete=models.PROTECT
     )
     members = models.ManyToManyField(
         User,
@@ -165,6 +164,14 @@ class DataField(models.Model):
         blank=True,
         on_delete=models.PROTECT
     )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT
+    )
+    community = models.ForeignKey(
+        Community,
+        on_delete=models.PROTECT
+    )
 
     def __str__(self):
         return self.name
@@ -182,6 +189,14 @@ class DataType(models.Model):
         DataField,
         # todo it is hard to give callable to limit_choices_to property
         # limit_choices_to={'community': 1},
+    )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT
+    )
+    community = models.ForeignKey(
+        Community,
+        on_delete=models.PROTECT
     )
 
     def __str__(self):
@@ -202,6 +217,14 @@ class Post(models.Model):
     fields = JSONField(
         blank=True,
         null=True
+    )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT
+    )
+    community = models.ForeignKey(
+        Community,
+        on_delete=models.PROTECT
     )
 
     def __str__(self):

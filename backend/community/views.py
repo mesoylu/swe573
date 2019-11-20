@@ -78,3 +78,9 @@ class CommunityViews:
             order = request.GET.get('order', '-membership__date_joined')
             data = list(CommunityService.get_members(name,order))
             return JsonResponse(data, safe=False)
+
+    def data_types(request,name):
+        if request.method == 'GET':
+            order = request.GET.get('order', 'name')
+            data = list(CommunityService.get_data_types(name,order))
+            return JsonResponse(data, safe=False)

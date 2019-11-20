@@ -42,3 +42,13 @@ class CommunitySerializer(serializers.ModelSerializer):
         model = Community
         fields = '__all__'
 
+
+class DataTypeSerializer(serializers.ModelSerializer):
+    community = serializers.StringRelatedField()
+    fields = serializers.StringRelatedField(many=True)
+    creator = serializers.StringRelatedField()
+
+    class Meta:
+        model = DataType
+        fields = '__all__'
+

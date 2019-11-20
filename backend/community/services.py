@@ -51,6 +51,11 @@ class CommunityService():
             'membership__date_joined'
         )
 
+    def get_data_types(name,order):
+        data_types = DataType.objects.filter(community__name=name)
+        return DataTypeSerializer(data_types, many=True).data
+
+
     # def getCommunity(name):
     #     # return Community.objects.filter(name=name).values(
     #     #     'id',

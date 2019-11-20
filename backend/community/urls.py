@@ -36,8 +36,8 @@ urlpatterns = \
                 path('', views.CommunityViews.community),
                 # todo POST subscribe
                 path('members/', views.CommunityViews.members),
-                # todo GET getDataTypes, POST createDataType
-                # path('datatypes/', views.getCommunityDataTypes),
+                # todo POST createDataType
+                path('datatypes/', views.CommunityViews.data_types),
                 # todo GET getDataFields, POST createDataField
                 # path('datafields/', views.getCommunityDataFields),
                 # todo GET getCommunityPosts

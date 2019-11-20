@@ -262,6 +262,8 @@ class Post(models.Model):
         auto_now=True
     )
     # todo these two should come from vote table, right now it is a placeholder
+    # added vote model, could not implement it yet
+    # these fields will be obsolete when voting implemented
     upvote_count = models.IntegerField()
     downvote_count = models.IntegerField()
     fields = JSONField(
@@ -285,6 +287,28 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.url = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
+
+    # def get_upvote_count(self):
+    #     return Vote.objects.filter(is_upvote=True).count()
+    #
+    # def get_downvote_count(self):
+    #     return Vote.objects.filter(is_upvote=False).count()
+
+
+class Vote(models.Model):
+    class Meta:
+        unique_together = [['post', 'user']]
+
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.PROTECT
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT
+    )
+    is_upvote = models.BooleanField()
+
 #
 # class DataFieldType(models.Model):
 #     name = models.CharField(

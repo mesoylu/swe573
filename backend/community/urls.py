@@ -14,10 +14,12 @@ urlpatterns = \
             path('datatypes/', views.getCommunityDataTypes),
             path('datafields/', views.getCommunityDataFields),
             path('posts/', views.getCommunityPosts),
-        ])
-             ),
+        ])),
         path('u/<username>/', include([
             path('', views.getUser),
+        ])),
+        path('p/<url>/', include([
+            path('', views.getPost),
         ])),
         path('wiki', views.wiki)
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -46,3 +46,9 @@ def getCommunityPosts(request, name):
 def getUser(request, username):
     data = list(UserService.getUser(username))
     return JsonResponse(data, safe=False)
+
+
+def getPost(request, url):
+    data = list(PostService.getPost(url))
+    return JsonResponse(data, safe=False)
+

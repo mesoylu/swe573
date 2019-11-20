@@ -80,3 +80,10 @@ class CommunityService:
         return Community.objects.filter(name=name).values(
             'field_value'
         )
+
+
+class PostService:
+
+    def getPost(url):
+        post = Post.objects.filter(url=url)
+        return PostSerializer(post,many=True).data

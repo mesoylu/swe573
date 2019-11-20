@@ -68,8 +68,13 @@ class CommunityViews:
         # elif request.method == 'POST':
         #    return JsonResponse('elelele', safe=False)
 
-
     def community(request,name):
         if request.method == 'GET':
             data = list(CommunityService.get_community(name))
+            return JsonResponse(data, safe=False)
+
+    def members(request,name):
+        if request.method == 'GET':
+            order = request.GET.get('order', '-membership__date_joined')
+            data = list(CommunityService.get_members(name,order))
             return JsonResponse(data, safe=False)

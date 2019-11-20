@@ -31,11 +31,11 @@ urlpatterns = \
         path('c/', include([
             # todo POST createCommunity
             path('', views.CommunityViews.index),
-            path('<name>', include([
+            path('<name>/', include([
                 # todo PATCH updateCommunity, DELETE deleteCommunity
                 path('', views.CommunityViews.community),
-                # todo GET getMembers, POST subscribe
-                # path('members/', views.CommunityMembers),
+                # todo POST subscribe
+                path('members/', views.CommunityViews.members),
                 # todo GET getDataTypes, POST createDataType
                 # path('datatypes/', views.getCommunityDataTypes),
                 # todo GET getDataFields, POST createDataField

@@ -236,6 +236,9 @@ class DataType(models.Model):
         on_delete=models.PROTECT,
         related_name='data_types'
     )
+    date_created = models.DateTimeField(
+        auto_now=True
+    )
 
     def __str__(self):
         return self.name

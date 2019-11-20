@@ -52,7 +52,7 @@ class CommunityService():
         )
 
     def get_data_types(name,order):
-        data_types = DataType.objects.filter(community__name=name)
+        data_types = DataType.objects.order_by(order).filter(community__name=name)
         return DataTypeSerializer(data_types, many=True).data
 
 

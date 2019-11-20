@@ -55,6 +55,10 @@ class CommunityService():
         data_types = DataType.objects.order_by(order).filter(community__name=name)
         return DataTypeSerializer(data_types, many=True).data
 
+    def get_posts(name,order):
+        posts = Post.objects.order_by(order).filter(community__name=name)
+        return PostSerializer(posts, many=True).data
+
 
     # def getCommunity(name):
     #     # return Community.objects.filter(name=name).values(

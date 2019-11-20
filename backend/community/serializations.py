@@ -16,6 +16,8 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     data_type = serializers.StringRelatedField()
+    community = serializers.StringRelatedField()
+    creator = serializers.StringRelatedField()
 
     class Meta:
         model = Post

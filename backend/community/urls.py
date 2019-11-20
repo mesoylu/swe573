@@ -40,8 +40,7 @@ urlpatterns = \
                 path('datatypes/', views.CommunityViews.data_types),
                 # todo GET getDataFields, POST createDataField
                 # path('datafields/', views.getCommunityDataFields),
-                # todo GET getCommunityPosts
-                # path('posts/', views.getCommunityPosts)
+                path('posts/', views.CommunityViews.posts)
             ]))
         ])),
         # todo user related views

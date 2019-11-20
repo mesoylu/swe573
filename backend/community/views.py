@@ -84,3 +84,8 @@ class CommunityViews:
             order = request.GET.get('order', 'name')
             data = list(CommunityService.get_data_types(name,order))
             return JsonResponse(data, safe=False)
+
+    def posts(request,name):
+        order = request.GET.get('order', '-date_created')
+        data = list(CommunityService.get_posts(name, order))
+        return JsonResponse(data, safe=False)

@@ -61,9 +61,15 @@ class CommunityViews:
 
     @csrf_exempt
     def index(request):
-        if request.method == 'POST':
-            return JsonResponse('elelele', safe=False)
-        elif request.method == 'GET':
+        if request.method == 'GET':
             order = request.GET.get('order','-date_created')
             data = list(CommunityService.get_all_communities(order))
+            return JsonResponse(data, safe=False)
+        # elif request.method == 'POST':
+        #    return JsonResponse('elelele', safe=False)
+
+
+    def community(request,name):
+        if request.method == 'GET':
+            data = list(CommunityService.get_community(name))
             return JsonResponse(data, safe=False)

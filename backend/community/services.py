@@ -39,6 +39,10 @@ class CommunityService():
         communities = Community.objects.order_by(order).all()
         return CommunitySerializer(communities, many=True).data
 
+    def get_community(name):
+        community = Community.objects.filter(name=name)
+        return CommunitySerializer(community, many=True).data
+
     # def getCommunity(name):
     #     # return Community.objects.filter(name=name).values(
     #     #     'id',

@@ -29,8 +29,8 @@ urlpatterns = \
         # path('', views.index),
         # todo community related views
         path('c/', include([
-            # todo GET getAllCommunities, POST createCommunity
-            # path('', views.Communities),
+            # todo POST createCommunity
+            path('', views.CommunityViews.index),
             path('<name>', include([
                 # todo GET getCommunity, PATCH updateCommunity, DELETE deleteCommunity
                 # path('', views.Community),
@@ -77,7 +77,7 @@ urlpatterns = \
             ]))
         ])),
         # todo wikidata related views
-        path('wiki', views.wiki)
+        # path('wiki', views.wiki)
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     # todo https://docs.djangoproject.com/en/2.2/howto/static-files/ it is not suitable on prod
 

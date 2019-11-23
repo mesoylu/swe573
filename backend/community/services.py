@@ -59,7 +59,7 @@ class CommunityService():
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data
 
-    def create_community(data):
+    def create(data):
         c = Community()
         c.name = data.get('name', '')
         c.description = data.get('description', '')
@@ -69,7 +69,7 @@ class CommunityService():
         c.save()
         return '/c/' + c.name
 
-    def update_community(name, data):
+    def update(name, data):
         c = Community.objects.get(name=name)
         description = data.get('description', '')
         if description != '':
@@ -80,11 +80,12 @@ class CommunityService():
         c.save()
         return '/c/' + c.name
 
-    def archive_community(name):
+    def archive(name):
         c = Community.objects.get(name=name)
         c.is_archived = True
         c.save()
         return '/c/'
+
 
 
     # def getCommunity(name):

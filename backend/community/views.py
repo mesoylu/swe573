@@ -78,13 +78,13 @@ class CommunityViews:
         if request.method == 'PATCH':
             try:
                 data = request.data
-                redirect_url = CommunityService.update_community(name, data)
+                redirect_url = CommunityService.update(name, data)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
         if request.method == 'DELETE':
             try:
-                redirect_url = CommunityService.archive_community(name)
+                redirect_url = CommunityService.archive(name)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
@@ -115,7 +115,7 @@ class CommunityViews:
             try:
                 data = request.POST.copy()
                 data.image = request.FILES.get('image')
-                redirect_url = CommunityService.create_community(data)
+                redirect_url = CommunityService.create(data)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)

@@ -32,7 +32,6 @@ urlpatterns = \
             path('', views.CommunityViews.index),
             path('new', views.CommunityViews.create),
             path('<name>/', include([
-                # todo PATCH updateCommunity, DELETE deleteCommunity
                 path('', views.CommunityViews.community),
                 # todo POST subscribe
                 path('members/', views.CommunityViews.members),

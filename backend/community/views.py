@@ -1,9 +1,11 @@
+from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .services import *
+from .forms import *
 from pprint import pprint
 from django.views.decorators.csrf import csrf_exempt
-
+from django.shortcuts import redirect
 
 # Create your views here.
 # def login(request):
@@ -89,3 +91,23 @@ class CommunityViews:
         order = request.GET.get('order', '-date_created')
         data = list(CommunityService.get_posts(name, order))
         return JsonResponse(data, safe=False)
+
+    @csrf_exempt
+    def create(request):
+        if request.method == 'GET':
+            form = CommunityForm()
+            return render(request, 'community/new_community.html', {'form': form})
+        elif request.method == 'POST':
+            try:
+                data = request.POST.copy()
+                c = Community()
+                c.name = data.get('name', '')
+                c.description = data.get('description', '')
+                c.image = request.FILES.get('image')
+                creator = User.objects.get(pk=data.get('creator', ''))
+                c.creator = creator
+                c.save()
+                url = '/c/' + c.name
+                return redirect(url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)

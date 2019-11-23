@@ -29,8 +29,8 @@ urlpatterns = \
         # path('', views.index),
         # todo community related views
         path('c/', include([
-            # todo POST createCommunity
             path('', views.CommunityViews.index),
+            path('new', views.CommunityViews.create),
             path('<name>/', include([
                 # todo PATCH updateCommunity, DELETE deleteCommunity
                 path('', views.CommunityViews.community),

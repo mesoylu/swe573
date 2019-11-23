@@ -89,11 +89,22 @@ class CommunityViews:
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 
+    @api_view(["POST", "GET", "DELETE"])
     def members(request,name):
         if request.method == 'GET':
             order = request.GET.get('order', '-membership__date_joined')
             data = list(CommunityService.get_members(name,order))
             return JsonResponse(data, safe=False)
+        if request.method == 'POST':
+            # todo this is a dummy data for writing a session parameter
+            request.session['user_id'] = 3
+            user_id = request.session['user_id']
+            redirect_url = CommunityService.subscribe(name,user_id)
+            return redirect(redirect_url)
+        if request.method == 'DELETE':
+            user_id = request.session['user_id']
+            redirect_url = CommunityService.unsubscribe(name, user_id)
+            return redirect(redirect_url)
 
     def data_types(request,name):
         if request.method == 'GET':

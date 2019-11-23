@@ -86,6 +86,20 @@ class CommunityService():
         c.save()
         return '/c/'
 
+    def subscribe(name,user_id):
+        m = Membership()
+        m.community = Community.objects.get(name=name)
+        m.user = User.objects.get(pk=user_id)
+        m.save()
+        return '/c/' + name
+
+    def unsubscribe(name,user_id):
+        c = Community.objects.get(name=name)
+        u = User.objects.get(pk=user_id)
+        m = Membership.objects.get(user=u, community=c)
+        m.delete()
+        return '/c/' + name
+
 
 
     # def getCommunity(name):

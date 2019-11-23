@@ -65,7 +65,7 @@ class CommunityViews:
     def index(request):
         if request.method == 'GET':
             order = request.GET.get('order','-date_created')
-            data = list(CommunityService.get_all_communities(order))
+            data = list(CommunityService.get_all(order))
             return JsonResponse(data, safe=False)
         # elif request.method == 'POST':
         #    return JsonResponse('elelele', safe=False)
@@ -73,7 +73,7 @@ class CommunityViews:
     @api_view(["PATCH","GET","DELETE"])
     def community(request,name):
         if request.method == 'GET':
-            data = list(CommunityService.get_community(name))
+            data = list(CommunityService.get(name))
             return JsonResponse(data, safe=False)
         if request.method == 'PATCH':
             try:
@@ -136,7 +136,7 @@ class UserViews:
     def index(request):
         if request.method == 'GET':
             order = request.GET.get('order','-date_registered')
-            data = list(UserService.get_all_users(order))
+            data = list(UserService.get_all(order))
             return JsonResponse(data, safe=False)
 
     def user(request, username):

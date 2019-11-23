@@ -32,22 +32,22 @@ class UserService:
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
-    def get_all_users(order):
+    def get_all(order):
         users = User.objects.filter(is_archived=False).order_by(order).all()
         return UserSerializer(users, many=True).data
 
-    def get_user(username):
+    def get(username):
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
 
 class CommunityService():
 
-    def get_all_communities(order):
+    def get_all(order):
         communities = Community.objects.filter(is_archived=False).order_by(order).all()
         return CommunitySerializer(communities, many=True).data
 
-    def get_community(name):
+    def get(name):
         community = Community.objects.filter(name=name)
         return CommunitySerializer(community, many=True).data
 

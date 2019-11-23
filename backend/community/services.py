@@ -69,6 +69,24 @@ class CommunityService():
         c.save()
         return '/c/' + c.name
 
+    def update_community(name, data):
+        c = Community.objects.get(name=name)
+        description = data.get('description', '')
+        if description != '':
+            c.description = description
+        image = data.get('image')
+        if image != '':
+            c.image = image
+        c.save()
+        return '/c/' + c.name
+
+    def archive_community(name):
+        c = Community.objects.get(name=name)
+        c.is_archived = True
+        c.save()
+        return '/c/'
+
+
     # def getCommunity(name):
     #     # return Community.objects.filter(name=name).values(
     #     #     'id',

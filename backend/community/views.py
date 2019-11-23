@@ -1,9 +1,9 @@
 from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from rest_framework.decorators import api_view
 from .services import *
 from .forms import *
-from pprint import pprint
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 
@@ -70,10 +70,24 @@ class CommunityViews:
         # elif request.method == 'POST':
         #    return JsonResponse('elelele', safe=False)
 
+    @api_view(["PATCH","GET","DELETE"])
     def community(request,name):
         if request.method == 'GET':
             data = list(CommunityService.get_community(name))
             return JsonResponse(data, safe=False)
+        if request.method == 'PATCH':
+            try:
+                data = request.data
+                redirect_url = CommunityService.update_community(name, data)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        if request.method == 'DELETE':
+            try:
+                redirect_url = CommunityService.archive_community(name)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
 
     def members(request,name):
         if request.method == 'GET':

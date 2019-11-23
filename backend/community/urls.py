@@ -43,8 +43,7 @@ urlpatterns = \
         ])),
         # todo user related views
         path('u/', include([
-            # todo GET getAllUsers
-            # path('', views.Users),
+            path('', views.UserViews.index),
             # todo GET loginform?, POST login
             # path('login', views.Login),
             # todo GET signupform?, POST signup

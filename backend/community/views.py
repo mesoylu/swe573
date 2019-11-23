@@ -130,3 +130,11 @@ class CommunityViews:
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
+
+
+class UserViews:
+    def index(request):
+        if request.method == 'GET':
+            order = request.GET.get('order','-date_registered')
+            data = list(UserService.get_all_users(order))
+            return JsonResponse(data, safe=False)

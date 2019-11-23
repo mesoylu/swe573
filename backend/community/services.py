@@ -36,7 +36,7 @@ class UserService:
 class CommunityService():
 
     def get_all_communities(order):
-        communities = Community.objects.order_by(order).all()
+        communities = Community.objects.filter(is_archived=False).order_by(order).all()
         return CommunitySerializer(communities, many=True).data
 
     def get_community(name):

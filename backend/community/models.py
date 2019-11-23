@@ -58,15 +58,6 @@ class DataFieldTypes(Enum):
         return self
 
 
-class UserRoles(Enum):
-    a = "admin"
-    s = "standard"
-
-    @classmethod
-    def all(self):
-        return self
-
-
 class User(models.Model):
     username = models.SlugField(
         max_length=100,
@@ -157,9 +148,8 @@ class Membership(models.Model):
     date_joined = models.DateTimeField(
         auto_now=True
     )
-    role = models.CharField(
-        max_length=1,
-        choices=[(tag.name, tag.value) for tag in UserRoles]
+    is_admin = models.BooleanField(
+        default=False
     )
 
     def __str__(self):

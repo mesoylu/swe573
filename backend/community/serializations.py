@@ -9,7 +9,7 @@ class MembershipSerializer(serializers.ModelSerializer):
         model = Membership
         fields = [
             'community',
-            'role',
+            'is_admin',
             'date_joined'
         ]
 

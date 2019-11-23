@@ -50,7 +50,7 @@ urlpatterns = \
             # path('signup', views.Signup),
             path('<username>', include([
                 # todo GET getUser, PATCH updateUser, DELETE deleteUser
-                # path('', views.User),
+                path('', views.UserViews.user),
                 # todo GET getDataTypes, POST createDataType
                 # path('datatypes/', views.getUserDataTypes),
                 # todo GET getDataFields, POST createDataField

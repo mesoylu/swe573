@@ -138,3 +138,8 @@ class UserViews:
             order = request.GET.get('order','-date_registered')
             data = list(UserService.get_all_users(order))
             return JsonResponse(data, safe=False)
+
+    def user(request, username):
+        if request.method == 'GET':
+            data = list(UserService.get_user(username))
+            return JsonResponse(data, safe=False)

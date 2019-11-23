@@ -33,7 +33,6 @@ urlpatterns = \
             path('new', views.CommunityViews.create),
             path('<name>/', include([
                 path('', views.CommunityViews.community),
-                # todo POST subscribe
                 path('members/', views.CommunityViews.members),
                 # todo POST createDataType
                 path('datatypes/', views.CommunityViews.data_types),

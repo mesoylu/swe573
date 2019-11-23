@@ -37,7 +37,7 @@ class UserService:
         return UserSerializer(users, many=True).data
 
     def get_user(username):
-        user = User.objects.get(username=username)
+        user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
 

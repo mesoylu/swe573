@@ -183,3 +183,16 @@ class PostViews:
         if request.method == 'GET':
             data = list(PostService.get(url))
             return JsonResponse(data, safe=False)
+        elif request.method == 'PATCH':
+            try:
+                data = request.data
+                redirect_url = PostService.update(url, data)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        elif request.method == 'DELETE':
+            try:
+                redirect_url = PostService.archive(url)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)

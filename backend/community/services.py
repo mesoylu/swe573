@@ -144,3 +144,20 @@ class PostService:
     def get(url):
         post = Post.objects.filter(url=url)
         return PostSerializer(post,many=True).data
+
+    def update(url, data):
+        p = Post.objects.get(url=url)
+        body = data.get('body', '')
+        if body != '':
+            p.body = body
+        fields = data.get('fields', '')
+        if fields != '':
+            p.fields = fields
+        p.save()
+        return '/p/' + url
+
+    def archive(url):
+        p = Post.objects.get(url=url)
+        p.is_archived = True
+        p.save()
+        return '/p/'

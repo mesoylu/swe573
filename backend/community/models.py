@@ -279,6 +279,9 @@ class Post(models.Model):
         on_delete=models.PROTECT,
         related_name='community_posts'
     )
+    is_archived = models.BooleanField(
+        default=False
+    )
 
     def __str__(self):
         return self.url

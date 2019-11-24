@@ -179,35 +179,35 @@ class WikidataItem(models.Model):
         return self.label
 
 
-class DataField(models.Model):
-    name = models.CharField(
-        max_length=50
-    )
-    # todo i should either use enumeration on type or open a new table for type
-    type = models.CharField(
-        max_length=3,
-        choices=[(tag.name, tag.value) for tag in DataFieldTypes]
-    )
-    is_required = models.BooleanField()
-    # todo OneToOne or ManyToOne // should we add more than one tag to a data field
-    wikidata_item = models.ForeignKey(
-        WikidataItem,
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT
-    )
-    creator = models.ForeignKey(
-        User,
-        on_delete=models.PROTECT
-    )
-    community = models.ForeignKey(
-        Community,
-        on_delete=models.PROTECT,
-        related_name='data_fields'
-    )
-
-    def __str__(self):
-        return self.name
+# class DataField(models.Model):
+#     name = models.CharField(
+#         max_length=50
+#     )
+#     # todo i should either use enumeration on type or open a new table for type
+#     type = models.CharField(
+#         max_length=3,
+#         choices=[(tag.name, tag.value) for tag in DataFieldTypes]
+#     )
+#     is_required = models.BooleanField()
+#     # todo OneToOne or ManyToOne // should we add more than one tag to a data field
+#     wikidata_item = models.ForeignKey(
+#         WikidataItem,
+#         null=True,
+#         blank=True,
+#         on_delete=models.PROTECT
+#     )
+#     creator = models.ForeignKey(
+#         User,
+#         on_delete=models.PROTECT
+#     )
+#     community = models.ForeignKey(
+#         Community,
+#         on_delete=models.PROTECT,
+#         related_name='data_fields'
+#     )
+#
+#     def __str__(self):
+#         return self.name
 
 
 class DataType(models.Model):
@@ -218,10 +218,9 @@ class DataType(models.Model):
     description = models.CharField(
         max_length=100
     )
-    fields = models.ManyToManyField(
-        DataField,
-        # todo it is hard to give callable to limit_choices_to property
-        # limit_choices_to={'community': 1},
+    fields = JSONField(
+        blank=True,
+        null=True
     )
     creator = models.ForeignKey(
         User,

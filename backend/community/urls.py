@@ -47,8 +47,8 @@ urlpatterns = \
             # path('signup', views.Signup),
             path('<username>/', include([
                 path('', views.UserViews.user),
-                # todo POST createDataType
-                path('datatypes', views.UserViews.data_types),
+                path('datatypes/', views.UserViews.data_types),
+                path('datatype/<id>', views.UserViews.data_type),
                 path('posts/', views.UserViews.posts)
                 # todo GET lastVotedByUser
                 # path('votes/', views.getUserVotes)

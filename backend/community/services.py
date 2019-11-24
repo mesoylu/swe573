@@ -85,22 +85,6 @@ class CommunityService:
             'membership__date_joined'
         )
 
-    def get_data_types(name,order):
-        data_types = DataType.objects.order_by(order).filter(community__name=name)
-        return DataTypeSerializer(data_types, many=True).data
-
-    def create_data_type(name, data, user_id):
-        user = User.objects.get(pk=user_id)
-        community = Community.objects.get(name=name)
-        dt = DataType()
-        dt.name = data['name']
-        dt.description = data['description']
-        dt.fields = data['fields']
-        dt.creator = user
-        dt.community = community
-        dt.save()
-        return '/c/' + name
-
     def get_posts(name,order):
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data
@@ -194,4 +178,42 @@ class PostService:
         post = Post.objects.get(url=url)
         vote = Vote.objects.get(user=user, post=post)
         vote.delete()
+        return {"success": True}
+
+
+class DataTypeService:
+
+    def get_all(name, order):
+        data_types = DataType.objects.order_by(order).filter(community__name=name)
+        return DataTypeSerializer(data_types, many=True).data
+
+    def create(name, data, user_id):
+        user = User.objects.get(pk=user_id)
+        community = Community.objects.get(name=name)
+        dt = DataType()
+        dt.name = data['name']
+        dt.description = data['description']
+        dt.fields = data['fields']
+        dt.tags = data['tags']
+        dt.creator = user
+        dt.community = community
+        dt.save()
+        return '/c/' + name
+
+    def update(id, user_id, data):
+        dt = DataType.objects.get(pk=id)
+        if 'fields' in data:
+            dt.fields = data['fields']
+        if 'description' in data:
+            dt.description = data['description']
+        if 'tags' in data:
+            dt.tags = data['tags']
+        dt.save()
+        return {"success": True}
+
+    def archive(id, user_id):
+        dt = DataType.objects.get(creator__pk=user_id,pk=id)
+        if dt is not None:
+            dt.is_archived = True
+            dt.save()
         return {"success": True}

@@ -121,7 +121,7 @@ class CommunityViews:
                 # todo this is a dummy data for writing a session parameter
                 request.session['user_id'] = 3
                 user_id = request.session['user_id']
-                redirect_url = CommunityService.create_data_type(name, data, user_id)
+                redirect_url = DataTypeService.create(name, data, user_id)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
@@ -173,11 +173,34 @@ class UserViews:
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 
-    def data_types(request,username):
+
+    def data_types(request, username):
         if request.method == 'GET':
             order = request.GET.get('order', 'name')
-            data = list(UserService.get_data_types(username,order))
+            data = list(DataTypeService.get_all(username,order))
             return JsonResponse(data, safe=False)
+
+    @api_view(["PATCH", "DELETE"])
+    def data_type(request, username, id):
+        if request.method == 'PATCH':
+            try:
+                data = json.loads(request.body)
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                response = DataTypeService.update(id, user_id, data)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        elif request.method == 'DELETE':
+            try:
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                response = DataTypeService.archive(id, user_id)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
 
     def posts(request,username):
         order = request.GET.get('order', '-date_created')

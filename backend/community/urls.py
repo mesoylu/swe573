@@ -49,7 +49,6 @@ urlpatterns = \
             # todo GET signupform?, POST signup
             # path('signup', views.Signup),
             path('<username>', include([
-                # todo GET getUser, PATCH updateUser, DELETE deleteUser
                 path('', views.UserViews.user),
                 # todo GET getDataTypes, POST createDataType
                 # path('datatypes/', views.getUserDataTypes),

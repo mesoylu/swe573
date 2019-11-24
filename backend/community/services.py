@@ -40,6 +40,24 @@ class UserService:
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
+    def update(username,data):
+        u = User.objects.get(username=username)
+        email = data.get('email', '')
+        if email != '':
+            u.email = email
+        image = data.get('image')
+        if image != '':
+            u.image = image
+        u.save()
+        return '/u/' + username
+
+    def archive(username):
+        # todo think about the scenario, when a user is archived, what happens with his/her posts
+        u = User.objects.get(username=username)
+        u.is_archived = True
+        u.save()
+        return '/u/'
+
 
 class CommunityService():
 

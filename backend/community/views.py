@@ -139,7 +139,21 @@ class UserViews:
             data = list(UserService.get_all(order))
             return JsonResponse(data, safe=False)
 
+    @api_view(["PATCH", "GET", "DELETE"])
     def user(request, username):
         if request.method == 'GET':
-            data = list(UserService.get_user(username))
+            data = list(UserService.get(username))
             return JsonResponse(data, safe=False)
+        elif request.method == 'PATCH':
+            try:
+                data = request.data
+                redirect_url = UserService.update(username, data)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        elif request.method == 'DELETE':
+            try:
+                redirect_url = UserService.archive(username)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)

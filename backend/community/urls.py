@@ -34,7 +34,6 @@ urlpatterns = \
             path('<name>/', include([
                 path('', views.CommunityViews.community),
                 path('members/', views.CommunityViews.members),
-                # todo POST createDataType
                 path('datatypes/', views.CommunityViews.data_types),
                 path('posts/', views.CommunityViews.posts)
             ]))

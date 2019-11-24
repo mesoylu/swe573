@@ -2,6 +2,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
+from rest_framework.utils import json
+
 from .services import *
 from .forms import *
 from django.views.decorators.csrf import csrf_exempt
@@ -106,11 +108,24 @@ class CommunityViews:
             redirect_url = CommunityService.unsubscribe(name, user_id)
             return redirect(redirect_url)
 
+    @csrf_exempt
     def data_types(request,name):
         if request.method == 'GET':
             order = request.GET.get('order', 'name')
             data = list(CommunityService.get_data_types(name,order))
             return JsonResponse(data, safe=False)
+        if request.method == 'POST':
+            try:
+                data = json.loads(request.body)
+                # data.image = request.FILES.get('image')
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                redirect_url = CommunityService.create_data_type(name, data, user_id)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+
 
     def posts(request,name):
         order = request.GET.get('order', '-date_created')

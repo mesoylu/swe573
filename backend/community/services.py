@@ -89,6 +89,18 @@ class CommunityService:
         data_types = DataType.objects.order_by(order).filter(community__name=name)
         return DataTypeSerializer(data_types, many=True).data
 
+    def create_data_type(name, data, user_id):
+        user = User.objects.get(pk=user_id)
+        community = Community.objects.get(name=name)
+        dt = DataType()
+        dt.name = data['name']
+        dt.description = data['description']
+        dt.fields = data['fields']
+        dt.creator = user
+        dt.community = community
+        dt.save()
+        return '/c/' + name
+
     def get_posts(name,order):
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data

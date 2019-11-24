@@ -234,6 +234,10 @@ class DataType(models.Model):
     date_created = models.DateTimeField(
         auto_now=True
     )
+    tags = JSONField(
+        blank=True,
+        null=True
+    )
     is_archived = models.BooleanField(
         default=False
     )

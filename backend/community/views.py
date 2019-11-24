@@ -163,3 +163,8 @@ class UserViews:
             order = request.GET.get('order', 'name')
             data = list(UserService.get_data_types(username,order))
             return JsonResponse(data, safe=False)
+
+    def posts(request,username):
+        order = request.GET.get('order', '-date_created')
+        data = list(UserService.get_posts(username, order))
+        return JsonResponse(data, safe=False)

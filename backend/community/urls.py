@@ -54,8 +54,7 @@ urlpatterns = \
                 path('datatypes', views.UserViews.data_types),
                 # todo GET getDataFields, POST createDataField
                 # path('datafields/', views.getUserDataFields),
-                # todo GET getCommunityPosts
-                # path('posts/', views.getUserPosts)
+                path('posts/', views.UserViews.posts)
                 # todo GET lastVotedByUser
                 # path('votes/', views.getUserVotes)
             ])),

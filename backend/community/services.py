@@ -62,6 +62,10 @@ class UserService:
         data_types = DataType.objects.order_by(order).filter(creator__username=username)
         return DataTypeSerializer(data_types, many=True).data
 
+    def get_posts(username,order):
+        posts = Post.objects.order_by(order).filter(creator__username=username)
+        return PostSerializer(posts, many=True).data
+
 
 class CommunityService():
 

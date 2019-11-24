@@ -157,3 +157,9 @@ class UserViews:
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
+
+    def data_types(request,username):
+        if request.method == 'GET':
+            order = request.GET.get('order', 'name')
+            data = list(UserService.get_data_types(username,order))
+            return JsonResponse(data, safe=False)

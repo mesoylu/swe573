@@ -48,10 +48,10 @@ urlpatterns = \
             # path('login', views.Login),
             # todo GET signupform?, POST signup
             # path('signup', views.Signup),
-            path('<username>', include([
+            path('<username>/', include([
                 path('', views.UserViews.user),
-                # todo GET getDataTypes, POST createDataType
-                # path('datatypes/', views.getUserDataTypes),
+                # todo POST createDataType
+                path('datatypes', views.UserViews.data_types),
                 # todo GET getDataFields, POST createDataField
                 # path('datafields/', views.getUserDataFields),
                 # todo GET getCommunityPosts

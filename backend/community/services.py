@@ -58,6 +58,10 @@ class UserService:
         u.save()
         return '/u/'
 
+    def get_data_types(username, order):
+        data_types = DataType.objects.order_by(order).filter(creator__username=username)
+        return DataTypeSerializer(data_types, many=True).data
+
 
 class CommunityService():
 

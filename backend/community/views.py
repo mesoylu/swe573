@@ -196,3 +196,23 @@ class PostViews:
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
+
+    @api_view(["PUT", "DELETE"])
+    def vote(request, url):
+        if request.method == 'PUT':
+            try:
+                is_upvote = request.data.get('is_upvote')
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                response = PostService.vote(url, user_id, is_upvote)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        elif request.method == 'DELETE':
+            try:
+                user_id = request.session['user_id']
+                response = PostService.unvote(url, user_id)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)

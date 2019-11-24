@@ -62,10 +62,11 @@ urlpatterns = \
         # todo post related views
         path('p/', include([
             path('', views.PostViews.index),
+            # todo POST create
+            # path('new', views.PostViews.create),
             path('<url>/', include([
                 path('', views.PostViews.post),
-                # todo POST vote, PATCH updateVote, DELETE deleteVote
-                # path('vote', views.Vote),
+                path('vote', views.PostViews.vote),
             ]))
         ])),
         # todo wikidata related views

@@ -161,3 +161,25 @@ class PostService:
         p.is_archived = True
         p.save()
         return '/p/'
+
+    def vote(url, user_id, is_upvote):
+        user = User.objects.get(pk=user_id)
+        post = Post.objects.get(url=url)
+        vote = Vote.objects.get(user=user, post=post)
+        if vote is None:
+            v = Vote()
+            v.user = user
+            v.post = post
+            v.is_upvote = is_upvote
+            v.save()
+        elif vote.is_upvote != is_upvote:
+            vote.is_upvote = is_upvote
+            vote.save()
+        return {"success": True}
+
+    def unvote(url, user_id):
+        user = User.objects.get(pk=user_id)
+        post = Post.objects.get(url=url)
+        vote = Vote.objects.get(user=user, post=post)
+        vote.delete()
+        return {"success": True}

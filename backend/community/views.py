@@ -177,3 +177,9 @@ class PostViews:
             order = request.GET.get('order','-date_created')
             data = list(PostService.get_all(order))
             return JsonResponse(data, safe=False)
+
+    @api_view(["PATCH", "GET", "DELETE"])
+    def post(request, url):
+        if request.method == 'GET':
+            data = list(PostService.get(url))
+            return JsonResponse(data, safe=False)

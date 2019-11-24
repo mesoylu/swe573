@@ -141,6 +141,6 @@ class PostService:
         posts = Post.objects.filter(is_archived=False).order_by(order).all()
         return PostSerializer(posts, many=True).data
 
-    def getPost(url):
+    def get(url):
         post = Post.objects.filter(url=url)
         return PostSerializer(post,many=True).data

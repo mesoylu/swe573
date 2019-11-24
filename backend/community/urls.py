@@ -64,7 +64,7 @@ urlpatterns = \
             path('', views.PostViews.index),
             path('<url>/', include([
                 # todo GET getPost, PATCH updatePost, DELETE deletePost
-                # path('', views.Post),
+                path('', views.PostViews.post),
                 # todo POST vote, PATCH updateVote, DELETE deleteVote
                 # path('vote', views.Vote),
             ]))

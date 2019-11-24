@@ -67,7 +67,7 @@ class UserService:
         return PostSerializer(posts, many=True).data
 
 
-class CommunityService():
+class CommunityService:
 
     def get_all(order):
         communities = Community.objects.filter(is_archived=False).order_by(order).all()
@@ -135,56 +135,11 @@ class CommunityService():
         return '/c/' + name
 
 
-
-    # def getCommunity(name):
-    #     # return Community.objects.filter(name=name).values(
-    #     #     'id',
-    #     #     'name',
-    #     #     'description',
-    #     #     'creator__username',
-    #     #     'date_created'
-    #     # )
-    #     community = Community.objects.filter(name=name)
-    #     return CommunitySerializer(community, many=True).data
-    #
-    # # todo should i know when member joined a community
-    # def getCommunityMembers(name):
-    #     return Community.objects.filter(name=name).values(
-    #         'members__id',
-    #         'members__username',
-    #         'members__date_registered'
-    #     )
-    #
-    # def getCommunityDataTypes(name):
-    #     return Community.objects.filter(name=name).values(
-    #         'datatype__id',
-    #         'datatype__title',
-    #         'datatype__body',
-    #         'datatype__fields'
-    #     )
-    #
-    # def getCommunityDataFields(name):
-    #     # todo is it possible to use Community here or should i use DataField model instead
-    #     return Community.objects.filter(name=name).values(
-    #         'datafield__id',
-    #         'datafield__name',
-    #         'datafield__type',
-    #         'datafield__is_required',
-    #         'datafield__wikidata_item__item'
-    #     )
-    #     # data = Community.objects.filter(name=name).values(
-    #     #    'id'
-    #     # )
-    #     # return DataField.objects.filter(id=data[0]).values()
-    #
-    # def getCommunityPosts(name):
-    #     return Community.objects.filter(name=name).values(
-    #         'field_value'
-    #     )
-
-
-
 class PostService:
+
+    def get_all(order):
+        posts = Post.objects.filter(is_archived=False).order_by(order).all()
+        return PostSerializer(posts, many=True).data
 
     def getPost(url):
         post = Post.objects.filter(url=url)

@@ -52,3 +52,10 @@ class DataTypeSerializer(serializers.ModelSerializer):
         model = DataType
         fields = '__all__'
 
+
+class VoteSerializer(serializers.ModelSerializer):
+    post = PostSerializer()
+
+    class Meta:
+        model = Vote
+        fields = '__all__'

@@ -207,6 +207,10 @@ class UserViews:
         data = list(UserService.get_posts(username, order))
         return JsonResponse(data, safe=False)
 
+    def votes(request, username):
+        data = list(VoteService.get_all(username))
+        return JsonResponse(data, safe=False)
+
 
 class PostViews:
 
@@ -241,16 +245,16 @@ class PostViews:
             try:
                 is_upvote = request.data.get('is_upvote')
                 # todo this is a dummy data for writing a session parameter
-                request.session['user_id'] = 3
+                request.session['user_id'] = 2
                 user_id = request.session['user_id']
-                response = PostService.vote(url, user_id, is_upvote)
+                response = VoteService.vote(url, user_id, is_upvote)
                 return HttpResponse(response)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
         elif request.method == 'DELETE':
             try:
                 user_id = request.session['user_id']
-                response = PostService.unvote(url, user_id)
+                response = VoteService.unvote(url, user_id)
                 return HttpResponse(response)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)

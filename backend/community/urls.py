@@ -49,9 +49,8 @@ urlpatterns = \
                 path('', views.UserViews.user),
                 path('datatypes/', views.UserViews.data_types),
                 path('datatype/<id>', views.UserViews.data_type),
-                path('posts/', views.UserViews.posts)
-                # todo GET lastVotedByUser
-                # path('votes/', views.getUserVotes)
+                path('posts/', views.UserViews.posts),
+                path('votes/', views.UserViews.votes)
             ])),
         ])),
         # todo post related views

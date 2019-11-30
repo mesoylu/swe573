@@ -158,10 +158,17 @@ class PostService:
         p.save()
         return '/p/'
 
+class VoteService:
+
     def vote(url, user_id, is_upvote):
         user = User.objects.get(pk=user_id)
         post = Post.objects.get(url=url)
-        vote = Vote.objects.get(user=user, post=post)
+
+        try:
+            vote = Vote.objects.get(user=user, post=post)
+        except Vote.DoesNotExist:
+            vote = None
+
         if vote is None:
             v = Vote()
             v.user = user
@@ -179,6 +186,10 @@ class PostService:
         vote = Vote.objects.get(user=user, post=post)
         vote.delete()
         return {"success": True}
+
+    def get_all(username):
+        votes = Vote.objects.order_by('-id').filter(user__username=username)
+        return VoteSerializer(votes, many=True).data
 
 
 class DataTypeService:

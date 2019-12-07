@@ -1,4 +1,6 @@
 .idea
 __pycache__/
 public/
-backend/backend/db.py
+backend/backend/variables.py
+frontend_templates/
+static/

@@ -34,10 +34,7 @@ urlpatterns = \
             path('<name>/', include([
                 path('', views.CommunityViews.community),
                 path('members/', views.CommunityViews.members),
-                # todo POST createDataType
                 path('datatypes/', views.CommunityViews.data_types),
-                # todo GET getDataFields, POST createDataField
-                # path('datafields/', views.getCommunityDataFields),
                 path('posts/', views.CommunityViews.posts)
             ]))
         ])),
@@ -50,13 +47,10 @@ urlpatterns = \
             # path('signup', views.Signup),
             path('<username>/', include([
                 path('', views.UserViews.user),
-                # todo POST createDataType
-                path('datatypes', views.UserViews.data_types),
-                # todo GET getDataFields, POST createDataField
-                # path('datafields/', views.getUserDataFields),
-                path('posts/', views.UserViews.posts)
-                # todo GET lastVotedByUser
-                # path('votes/', views.getUserVotes)
+                path('datatypes/', views.UserViews.data_types),
+                path('datatype/<id>', views.UserViews.data_type),
+                path('posts/', views.UserViews.posts),
+                path('votes/', views.UserViews.votes)
             ])),
         ])),
         # todo post related views

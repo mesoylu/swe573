@@ -37,7 +37,6 @@ class CommunitySerializer(serializers.ModelSerializer):
     creator = serializers.StringRelatedField()
     members = serializers.StringRelatedField(many=True)
     data_types = serializers.StringRelatedField(many=True)
-    data_fields = serializers.StringRelatedField(many=True)
     community_posts = PostSerializer(many=True)
 
     class Meta:
@@ -47,10 +46,16 @@ class CommunitySerializer(serializers.ModelSerializer):
 
 class DataTypeSerializer(serializers.ModelSerializer):
     community = serializers.StringRelatedField()
-    fields = serializers.StringRelatedField(many=True)
     creator = serializers.StringRelatedField()
 
     class Meta:
         model = DataType
         fields = '__all__'
 
+
+class VoteSerializer(serializers.ModelSerializer):
+    post = PostSerializer()
+
+    class Meta:
+        model = Vote
+        fields = '__all__'

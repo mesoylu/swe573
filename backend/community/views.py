@@ -2,6 +2,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
+from rest_framework.utils import json
+
 from .services import *
 from .forms import *
 from django.views.decorators.csrf import csrf_exempt
@@ -106,11 +108,24 @@ class CommunityViews:
             redirect_url = CommunityService.unsubscribe(name, user_id)
             return redirect(redirect_url)
 
+    @csrf_exempt
     def data_types(request,name):
         if request.method == 'GET':
             order = request.GET.get('order', 'name')
             data = list(CommunityService.get_data_types(name,order))
             return JsonResponse(data, safe=False)
+        if request.method == 'POST':
+            try:
+                data = json.loads(request.body)
+                # data.image = request.FILES.get('image')
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                redirect_url = DataTypeService.create(name, data, user_id)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+
 
     def posts(request,name):
         order = request.GET.get('order', '-date_created')
@@ -158,15 +173,42 @@ class UserViews:
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 
-    def data_types(request,username):
+
+    def data_types(request, username):
         if request.method == 'GET':
             order = request.GET.get('order', 'name')
-            data = list(UserService.get_data_types(username,order))
+            data = list(DataTypeService.get_all(username,order))
             return JsonResponse(data, safe=False)
+
+    @api_view(["PATCH", "DELETE"])
+    def data_type(request, username, id):
+        if request.method == 'PATCH':
+            try:
+                data = json.loads(request.body)
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                response = DataTypeService.update(id, user_id, data)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+        elif request.method == 'DELETE':
+            try:
+                # todo this is a dummy data for writing a session parameter
+                request.session['user_id'] = 3
+                user_id = request.session['user_id']
+                response = DataTypeService.archive(id, user_id)
+                return HttpResponse(response)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
 
     def posts(request,username):
         order = request.GET.get('order', '-date_created')
         data = list(UserService.get_posts(username, order))
+        return JsonResponse(data, safe=False)
+
+    def votes(request, username):
+        data = list(VoteService.get_all(username))
         return JsonResponse(data, safe=False)
 
 
@@ -203,16 +245,16 @@ class PostViews:
             try:
                 is_upvote = request.data.get('is_upvote')
                 # todo this is a dummy data for writing a session parameter
-                request.session['user_id'] = 3
+                request.session['user_id'] = 2
                 user_id = request.session['user_id']
-                response = PostService.vote(url, user_id, is_upvote)
+                response = VoteService.vote(url, user_id, is_upvote)
                 return HttpResponse(response)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
         elif request.method == 'DELETE':
             try:
                 user_id = request.session['user_id']
-                response = PostService.unvote(url, user_id)
+                response = VoteService.unvote(url, user_id)
                 return HttpResponse(response)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)

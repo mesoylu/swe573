@@ -56,9 +56,8 @@ from django.shortcuts import redirect
 #     data = list(PostService.getPost(url))
 #     return JsonResponse(data, safe=False)
 
-def getAllCommunities(request):
-    data = list(CommunityService.get_all_communities())
-    return JsonResponse(data, safe=False)
+def index(request):
+    return render(request, 'community/index.html')
 
 
 class CommunityViews:

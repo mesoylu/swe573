@@ -26,7 +26,7 @@ from . import views
 urlpatterns = \
     [
         # todo homepage
-        # path('', views.index),
+        path('', views.index),
         # todo community related views
         path('c/', include([
             path('', views.CommunityViews.index),

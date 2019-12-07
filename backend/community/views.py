@@ -67,7 +67,8 @@ class CommunityViews:
         if request.method == 'GET':
             order = request.GET.get('order','-date_created')
             data = list(CommunityService.get_all(order))
-            return JsonResponse(data, safe=False)
+            # return JsonResponse(data, safe=False)
+            return render(request, 'community/communities.html',{'communities': data})
         # elif request.method == 'POST':
         #    return JsonResponse('elelele', safe=False)
 
@@ -218,6 +219,21 @@ class PostViews:
             order = request.GET.get('order','-date_created')
             data = list(PostService.get_all(order))
             return JsonResponse(data, safe=False)
+
+    @csrf_exempt
+    def create(request):
+        if request.method == 'GET':
+            form = PostForm()
+            print(str(form))
+            return render(request, 'community/new_post.html', {'form': form})
+        elif request.method == 'POST':
+            try:
+                data = request.POST.copy()
+                data.image = request.FILES.get('image')
+                redirect_url = PostService.create(data)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
 
     @api_view(["PATCH", "GET", "DELETE"])
     def post(request, url):

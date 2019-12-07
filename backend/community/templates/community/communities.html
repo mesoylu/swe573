@@ -1,0 +1,8 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+
+{% block content %}
+{% for community in communities %}
+    {% include 'community/partials/community_card.html' with community=community only %}
+{% endfor %}
+{% endblock %}

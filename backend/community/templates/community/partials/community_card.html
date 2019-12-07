@@ -1,0 +1,18 @@
+{% load static %}
+
+<section id="banner">
+    <div class="content">
+        <header>
+            <h1>{{ community.name }}</h1>
+        </header>
+        <p>
+            {{ community.description }}
+        </p>
+        <ul class="actions">
+            <li><a href="/c/{{ community.name }}" class="button big">Browse Community</a></li>
+        </ul>
+    </div>
+    <span class="image object">
+        <img src="{{ community.image }}" alt="{{ community.name }}">
+    </span>
+</section>

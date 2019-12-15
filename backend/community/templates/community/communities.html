@@ -1,8 +1,11 @@
 {% extends 'community/layout.html' %}
 {% load static %}
-
 {% block content %}
 {% for community in communities %}
     {% include 'community/partials/community_card.html' with community=community only %}
 {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
 {% endblock %}

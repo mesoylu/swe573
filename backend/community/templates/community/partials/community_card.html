@@ -1,5 +1,4 @@
 {% load static %}
-
 <section id="banner">
     <div class="content">
         <header>
@@ -9,7 +8,13 @@
             {{ community.description }}
         </p>
         <ul class="actions">
-            <li><a href="/c/{{ community.name }}" class="button big">Browse Community</a></li>
+            <li><a href="/c/{{ community.name }}" class="button big">Take a look!</a></li>
+            {% if request.session.name in community.members %}
+                <li><a id="subscribe_{{ community.name }}" onclick="unsubscribe('{{ community.name }}');" class="button big">Unsubscribe</a></li>
+            {% else %}
+                <li><a id="subscribe_{{ community.name }}" onclick="subscribe('{{ community.name }}');" class="button big">Subscribe</a></li>
+            {% endif %}
+
         </ul>
     </div>
     <span class="image object">

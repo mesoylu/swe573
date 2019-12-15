@@ -8,6 +8,8 @@ from .services import *
 from .forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate,login,logout
+
 
 # Create your views here.
 # def login(request):
@@ -210,6 +212,28 @@ class UserViews:
     def votes(request, username):
         data = list(VoteService.get_all(username))
         return JsonResponse(data, safe=False)
+
+    @csrf_exempt
+    def login(request):
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                username = user.username
+                redirect_url = '/u/' + username
+                return redirect(redirect_url)
+            else:
+                return JsonResponse('User authentication failed!', safe=False)
+
+    # todo logout always wants csrf token it didnt work with postman
+    @csrf_exempt
+    def logout(request):
+        if request.method == 'POST':
+            logout(request)
+            for key, value in request.session.items():
+                print('{} => {}'.format(key, value))
 
 
 class PostViews:

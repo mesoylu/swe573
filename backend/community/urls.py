@@ -42,7 +42,8 @@ urlpatterns = \
         path('u/', include([
             path('', views.UserViews.index),
             # todo GET loginform?, POST login
-            # path('login', views.Login),
+            path('login', views.UserViews.login),
+            path('logout', views.UserViews.logout),
             # todo GET signupform?, POST signup
             # path('signup', views.Signup),
             path('<username>/', include([

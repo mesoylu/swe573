@@ -131,3 +131,5 @@ STATICFILES_DIRS = staticfiles_dirs
 MEDIA_ROOT = media_root
 
 MEDIA_URL = '/public/'
+
+AUTH_USER_MODEL = 'community.User'

@@ -9,6 +9,8 @@ from enum import Enum
 from uuid import uuid4
 from django.utils.deconstruct import deconstructible
 from django.utils.text import slugify
+from django.contrib.auth.models import AbstractUser
+
 
 
 # todo should this function reside here
@@ -58,13 +60,13 @@ class DataFieldTypes(Enum):
         return self
 
 
-class User(models.Model):
+class User(AbstractUser):
     username = models.SlugField(
         max_length=100,
         unique=True
     )
     password = models.CharField(
-        max_length=32
+        max_length=200
     )
     email = models.EmailField(
         max_length=200,

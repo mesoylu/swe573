@@ -60,7 +60,7 @@ class DataFieldTypes(Enum):
         return self
 
 
-class User(AbstractUser):
+class User(models.Model):
     username = models.SlugField(
         max_length=100,
         unique=True

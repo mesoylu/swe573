@@ -215,7 +215,9 @@ class UserViews:
 
     @csrf_exempt
     def login(request):
-        if request.method == 'POST':
+        if request.method == 'GET':
+            return render(request, 'community/login.html')
+        elif request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)

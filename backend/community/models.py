@@ -158,7 +158,7 @@ class Membership(models.Model):
     )
 
     def __str__(self):
-        return self.community.name + " : " + self.user.username + " : " + self.role
+        return self.community.name + " : " + self.user.username
 
 
 class WikidataItem(models.Model):

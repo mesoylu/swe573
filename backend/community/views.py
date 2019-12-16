@@ -238,7 +238,7 @@ class UserViews:
     def logout(request):
         if request.method == 'GET':
                 request.session.flush()
-        redirect_url = '/u/'
+        redirect_url = '/'
         return redirect(redirect_url)
 
     def signup(request):

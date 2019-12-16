@@ -32,7 +32,7 @@
     <section>
     <div class="row">
     {% for post in community.community_posts %}
-        {% if post.datatype == null %}
+        {% if post.data_type == null %}
             {% include 'community/partials/generic_post.html' with post=post request=request %}
         {% endif %}
         <hr/>

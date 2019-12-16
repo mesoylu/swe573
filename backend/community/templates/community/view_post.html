@@ -1,0 +1,16 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <section>
+        <div class="row">
+            {% if post.datatype == null %}
+                {% include 'community/partials/generic_post.html' with post=post request=request %}
+            {% endif %}
+            <hr/>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

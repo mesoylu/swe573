@@ -300,11 +300,13 @@ class PostViews:
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 
+    # todo is the name ok?
     @api_view(["PATCH", "GET", "DELETE"])
     def post(request, url):
         if request.method == 'GET':
             data = list(PostService.get(url))
-            return JsonResponse(data, safe=False)
+            # return JsonResponse(data, safe=False)
+            return render(request, 'community/view_post.html', {'post': data[0]})
         elif request.method == 'PATCH':
             try:
                 data = request.data

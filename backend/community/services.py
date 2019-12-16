@@ -103,6 +103,7 @@ class CommunityService:
         creator = User.objects.get(pk=data.get('creator', ''))
         c.creator = creator
         c.save()
+        c.members.set([creator.id])
         return '/c/' + c.name
 
     def update(name, data):

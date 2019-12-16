@@ -35,7 +35,10 @@ urlpatterns = \
                 path('', views.CommunityViews.community),
                 path('members/', views.CommunityViews.members),
                 path('datatypes/', views.CommunityViews.data_types),
-                path('posts/', views.CommunityViews.posts)
+                path('posts/', include([
+                    path('', views.CommunityViews.posts),
+                    path('new', views.PostViews.create)
+                ]))
             ]))
         ])),
         # todo user related views

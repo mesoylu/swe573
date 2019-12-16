@@ -284,16 +284,17 @@ class PostViews:
             return JsonResponse(data, safe=False)
 
     @csrf_exempt
-    def create(request):
+    def create(request, name):
         if request.method == 'GET':
             form = PostForm()
-            print(str(form))
+            # for key, value in request.session.items():
+            #     print('{} => {}'.format(key, value))
             return render(request, 'community/new_post.html', {'form': form})
         elif request.method == 'POST':
             try:
                 data = request.POST.copy()
-                data.image = request.FILES.get('image')
-                redirect_url = PostService.create(data)
+                files = request.FILES.copy()
+                redirect_url = PostService.create(name, request.session['user_id'], data, files)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)

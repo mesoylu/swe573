@@ -251,7 +251,8 @@ class DataType(models.Model):
 class Post(models.Model):
     data_type = models.ForeignKey(
         DataType,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True
     )
     title = models.CharField(
         max_length=100

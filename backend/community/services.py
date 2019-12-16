@@ -148,6 +148,19 @@ class PostService:
         post = Post.objects.filter(url=url)
         return PostSerializer(post,many=True).data
 
+    def create(url, user_id, data, files):
+        p = Post()
+        c = Community.objects.get(name=url)
+        u = User.objects.get(id=user_id)
+        p.community = c
+        p.creator = u
+        p.upvote_count = 0
+        p.downvote_count = 0
+        p.title = data.get('title')
+        p.body = data.get('body')
+        p.save()
+        return '/p/' + p.url
+
     def update(url, data):
         p = Post.objects.get(url=url)
         body = data.get('body', '')

@@ -32,3 +32,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username','password','email','image']
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'

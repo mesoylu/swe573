@@ -6,13 +6,21 @@
         <form method="post" action="#">
             <input type="text" name="query" id="query" placeholder="Search"/>
         </form>
+        {% if 'username' in request.session %}
+            <header class="major">
+                <h2>Welcome {{ request.session.username }}</h2>
+            </header>
+            <a href="/u/logout" class="button small">Logout</a>
+        {% else %}
+            <header class="major">
+                <h2>Welcome to the CC</h2>
+            </header>
+            <a href="/u/login" class="button small">Login</a>
+            <a href="/u/signup" class="button small">Signup</a>
+        {% endif %}
     </section>
-
     <!-- Menu -->
     <nav id="menu">
-        <header class="major">
-            <h2>Menu</h2>
-        </header>
         <ul>
             <li><a href="/">Homepage</a></li>
             <li><a href="/c/">Communities</a></li>

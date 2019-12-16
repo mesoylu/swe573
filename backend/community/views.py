@@ -237,11 +237,11 @@ class UserViews:
             else:
                 return JsonResponse('User authentication failed!', safe=False)
 
-    # todo logout always wants csrf token it didnt work with postman
-    @csrf_exempt
+    # todo logout should be a post method but it is convenient to use get rignt now
     def logout(request):
         if request.method == 'GET':
-                request.session.flush()
+            #todo instead of flushing using del would be better
+            request.session.flush()
         redirect_url = '/'
         return redirect(redirect_url)
 

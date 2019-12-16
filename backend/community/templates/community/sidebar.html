@@ -31,8 +31,10 @@
                 <span class="opener">Create</span>
                 <ul>
                     <li><a href="/c/new">Community</a></li>
-                    <li><a href="#">Datatype</a></li>
-                    <li><a href="#">Post</a></li>
+                    {% if 'current_community' in request.session %}
+                        <li><a href="/c/{{ request.session.current_community }}/datatypes/new">Datatype</a></li>
+                        <li><a href="/c/{{ request.session.current_community }}/posts/new">Post</a></li>
+                    {% endif %}
                 </ul>
             </li>
             {% endif %}

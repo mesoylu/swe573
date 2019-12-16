@@ -121,7 +121,6 @@ class CommunityViews:
                 data = json.loads(request.body)
                 # data.image = request.FILES.get('image')
                 # todo this is a dummy data for writing a session parameter
-                request.session['user_id'] = 3
                 user_id = request.session['user_id']
                 redirect_url = DataTypeService.create(name, data, user_id)
                 return redirect(redirect_url)
@@ -216,15 +215,20 @@ class UserViews:
     @csrf_exempt
     def login(request):
         if request.method == 'GET':
-            return render(request, 'community/login.html')
+            if 'user_id' not in request.session:
+                return render(request, 'community/login.html')
+            else:
+                redirect_url = '/u/' + request.session['username']
+                return redirect(redirect_url)
         elif request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
-            user = authenticate(request, username=username, password=password)
+            # todo this method is not suitable, should update later
+            user = User.objects.get(username=username,password=password)
             if user is not None:
-                login(request, user)
-                username = user.username
-                redirect_url = '/u/' + username
+                request.session['username'] = user.username
+                request.session['user_id'] = user.id
+                redirect_url = '/u/' + user.username
                 return redirect(redirect_url)
             else:
                 return JsonResponse('User authentication failed!', safe=False)
@@ -232,10 +236,41 @@ class UserViews:
     # todo logout always wants csrf token it didnt work with postman
     @csrf_exempt
     def logout(request):
-        if request.method == 'POST':
-            logout(request)
-            for key, value in request.session.items():
-                print('{} => {}'.format(key, value))
+        if request.method == 'GET':
+                request.session.flush()
+        redirect_url = '/u/'
+        return redirect(redirect_url)
+
+    def signup(request):
+        if request.method == 'GET':
+            if 'user_id' not in request.session:
+                return render(request, 'community/signup.html')
+            else:
+                redirect_url = '/u/' + request.session['username']
+                return redirect(redirect_url)
+        elif request.method == 'POST':
+            try:
+                user = User.objects.get(username=request.POST['username'])
+            except:
+                user = None
+            if user is not None:
+                return JsonResponse('Username exists!', safe=False)
+
+            try:
+                user = User.objects.get(email=request.POST['email'])
+            except:
+                user = None
+            if user is not None:
+                return JsonResponse('Email already used on an account!', safe=False)
+
+            u = UserService.create(request.POST, request.FILES)
+            request.session['username'] = u.username
+            request.session['user_id'] = u.id
+
+            redirect_url = '/u/' + u.username
+            return redirect(redirect_url)
+
+
 
 
 class PostViews:

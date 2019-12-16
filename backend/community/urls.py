@@ -45,7 +45,7 @@ urlpatterns = \
             path('login', views.UserViews.login),
             path('logout', views.UserViews.logout),
             # todo GET signupform?, POST signup
-            # path('signup', views.Signup),
+            path('signup', views.UserViews.signup),
             path('<username>/', include([
                 path('', views.UserViews.user),
                 path('datatypes/', views.UserViews.data_types),

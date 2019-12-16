@@ -21,9 +21,6 @@ class WikidataService:
 # todo learn how to use sessions in order to use logged in user id type of thing
 class UserService:
 
-    def login(data):
-        return User.objects.values()
-
     def getUser(username):
         # return User.objects.filter(username=username).values_list(
         #     'username',
@@ -39,6 +36,15 @@ class UserService:
     def get(username):
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
+
+    def create(data,file):
+        user = User()
+        user.username = data['username']
+        user.password = data['password']
+        user.image = file['image']
+        user.email = data['email']
+        user.save()
+        return user
 
     def update(username,data):
         u = User.objects.get(username=username)

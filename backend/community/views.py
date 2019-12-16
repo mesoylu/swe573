@@ -141,8 +141,8 @@ class CommunityViews:
         elif request.method == 'POST':
             try:
                 data = request.POST.copy()
-                data.image = request.FILES.get('image')
-                redirect_url = CommunityService.create(data)
+                image = request.FILES.get('image')
+                redirect_url = CommunityService.create(data,image)
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)

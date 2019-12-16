@@ -95,11 +95,11 @@ class CommunityService:
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data
 
-    def create(data):
+    def create(data,image):
         c = Community()
         c.name = data.get('name', '')
         c.description = data.get('description', '')
-        c.image = data.get('image')
+        c.image = image
         creator = User.objects.get(pk=data.get('creator', ''))
         c.creator = creator
         c.save()

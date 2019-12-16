@@ -78,7 +78,9 @@ class CommunityViews:
     def community(request,name):
         if request.method == 'GET':
             data = list(CommunityService.get(name))
-            return JsonResponse(data, safe=False)
+            # return JsonResponse(data, safe=False)
+            # todo had to give the data as [0], because of serialization
+            return render(request, 'community/view_community.html', {'community': data[0]})
         if request.method == 'PATCH':
             try:
                 data = request.data

@@ -2,6 +2,9 @@
 {#todo user info and other stuff should be here#}
 <header id="header">
     <a href="/" class="logo"><strong>CC</strong></a>
+    {% if 'current_community' in request.session %}
+        <a href="/c/{{ request.session.current_community }}" class="logo" style="text-align: right;">Return to {{ request.session.current_community }}</a>
+    {% endif %}
     <ul class="icons">
         <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
         <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>

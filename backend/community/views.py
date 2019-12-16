@@ -78,6 +78,7 @@ class CommunityViews:
     def community(request,name):
         if request.method == 'GET':
             data = list(CommunityService.get(name))
+            request.session['current_community'] = name
             # return JsonResponse(data, safe=False)
             # todo had to give the data as [0], because of serialization
             return render(request, 'community/view_community.html', {'community': data[0]})

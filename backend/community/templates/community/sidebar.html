@@ -26,6 +26,7 @@
             <li><a href="/c/">Communities</a></li>
             <li><a href="/u/">Users</a></li>
             <li><a href="/p/">Posts</a></li>
+            {% if 'username' in request.session%}
             <li>
                 <span class="opener">Create</span>
                 <ul>
@@ -34,6 +35,7 @@
                     <li><a href="#">Post</a></li>
                 </ul>
             </li>
+            {% endif %}
 {#            <li><a href="#">Etiam Dolore</a></li>#}
 {#            <li><a href="#">Adipiscing</a></li>#}
 {#            <li>#}

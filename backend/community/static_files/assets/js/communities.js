@@ -1,8 +1,8 @@
 function subscribe(communityName) {
     var rf = function (res) {
-        console.log('elelelele');
+        location.reload();
     };
-    var url = communityName + '/members/';
+    var url = 'members/';
     var data = {
         name : communityName
     }
@@ -10,12 +10,12 @@ function subscribe(communityName) {
 }
 
 function unsubscribe(communityName) {
-    var url = communityName + '/members/';
+    var url = 'members/';
     $.ajax({
     url: url,
     type: 'DELETE',
     success: function(result) {
-        console.log('lalalala');
+        location.reload();
     }
 });
 }

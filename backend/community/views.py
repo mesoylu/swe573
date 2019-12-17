@@ -59,7 +59,8 @@ from django.contrib.auth import authenticate,login,logout
 #     return JsonResponse(data, safe=False)
 
 def index(request):
-    del request.session['current_community']
+    if 'current_community' in request.session:
+        del request.session['current_community']
     return render(request, 'community/index.html')
 
 

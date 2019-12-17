@@ -23,7 +23,7 @@
                 {% endif %}
             </ul>
         </div>
-        {% if community.image == '' %}
+        {% if community.image != null %}
             <span class="image object">
         <img src="{{ community.image }}" alt="{{ community.name }}">
     </span>

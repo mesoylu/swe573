@@ -124,11 +124,11 @@ class CommunityViews:
     def data_types(request,name):
         if request.method == 'GET':
             order = request.GET.get('order', 'name')
-            data = list(CommunityService.get_data_types(name,order))
+            data = list(DataTypeService.get_all(name,order))
             return JsonResponse(data, safe=False)
         if request.method == 'POST':
             try:
-                data = json.loads(request.body)
+                data = request.POST.copy()
                 # data.image = request.FILES.get('image')
                 # todo this is a dummy data for writing a session parameter
                 user_id = request.session['user_id']
@@ -354,7 +354,6 @@ class DataTypeViews:
     def create(request, name):
         if request.method == 'GET':
             form = DataTypeForm()
-            print(form)
             # for key, value in request.session.items():
             #     print('{} => {}'.format(key, value))
             return render(request, 'community/new_datatype.html', {'form': form})

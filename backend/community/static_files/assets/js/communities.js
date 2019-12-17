@@ -24,6 +24,7 @@ function unsubscribe(communityName) {
 
 function addDataFieldRow() {
     var rf = function (res) {
+        $('#has_fields').val(field_index);
         var button = $('#button_row');
         $(res).insertBefore(button);
         field_index++;
@@ -36,8 +37,24 @@ function addDataFieldRow() {
 }
 
 function submitDataType() {
-    var form = $('#create_datatype');
-    console.log(form.serialize());
+    // var form = $('#create_datatype');
+    // var rf = function (res) {
+    //     location.reload();
+    // };
+    // var url = '../datatypes/';
+    // var data = {
+    //     formdata: form.serialize()
+    // }
+    // $.post(url, data, rf);
+    var json = {};
+    json.name = '1';
+    json.description = '2';
+    var rf = function (res) {
+        location.reload();
+    };
+    var url = '../datatypes/';
+    var data = json;
+    $.post(url, data, rf);
 }
 
 function enableEnumeration(e){

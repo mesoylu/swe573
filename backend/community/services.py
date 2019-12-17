@@ -224,8 +224,30 @@ class DataTypeService:
         dt = DataType()
         dt.name = data['name']
         dt.description = data['description']
-        dt.fields = data['fields']
-        dt.tags = data['tags']
+        fields = []
+        if int(data['has_fields']) > 0:
+            i = 0
+            while i < int(data['has_fields']):
+                i += 1
+                field_label = 'field_label_' + str(i)
+                field_type = 'field_type_' + str(i)
+                field_is_required = 'is_required_' + str(i)
+                if data[field_is_required] == 'on':
+                    is_required = True
+                else:
+                    is_required = False
+                field = {
+                    'label': data[field_label],
+                    'type': data[field_type],
+                    'is_required': is_required,
+                    'value': None,
+                    'choices': None,
+                    'tags': None
+                }
+                fields.append(field)
+
+        dt.fields = fields
+        # dt.tags = data['tags']
         dt.creator = user
         dt.community = community
         dt.save()

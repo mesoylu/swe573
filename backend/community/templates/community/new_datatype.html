@@ -2,9 +2,10 @@
 {% load static %}
 {% block content %}
     <h2>New datatype</h2>
-    <form method="POST" class="post-form" id="create_datatype">
+    <form method="POST" class="post-form" id="create_datatype" action="../datatypes/">
         {% csrf_token %}
         <table>
+            <input type="hidden" id="has_fields" name="has_fields" value="0">
             <tr>
                 <th colspan="1" width="25px;"><label for="id_name">Name:</label></th>
                 <td colspan="4"><input type="text" name="name" maxlength="100" required id="id_name"></td>
@@ -16,7 +17,7 @@
             <tr id="button_row">
                 <td colspan="5">
                     <button type="button" onclick="addDataFieldRow();" class="button fit">Add Field</button>
-                    <button type="button" onclick="submitDataType();" class="button primary fit">Save</button>
+                    <button type="submit" class="button primary fit">Save</button>
                 </td>
             </tr>
         </table>

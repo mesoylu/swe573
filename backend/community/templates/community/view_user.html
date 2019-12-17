@@ -1,0 +1,31 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ user.username }}</h1>
+            </header>
+            <p>
+                Date Registered: {{ user.date_registered }}
+            </p>
+            {% for community in user.communities %}
+                <a href="/c/{{ community.community }}" class="button">{{ community.community }}</a>
+            {% endfor %}
+        </div>
+    </section>
+    <section>
+    <div class="row">
+    {% for post in community.community_posts %}
+        {% if post.data_type == null %}
+            {% include 'community/partials/generic_post.html' with post=post request=request %}
+        {% endif %}
+        <hr/>
+    {% endfor %}
+    </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

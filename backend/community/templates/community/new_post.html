@@ -4,6 +4,7 @@
     <h2>New post</h2>
     <form method="POST" class="post-form">
         {% csrf_token %}
+        {% include 'community/partials/data_type_selector.html' with data_types=data_types request=request %}
         <tr>
             <th><label for="id_title">Title:</label></th>
             <td><input type="text" name="title" maxlength="100" required id="id_title"></td>
@@ -16,4 +17,8 @@
             <td><button type="submit" class="save btn btn-default fit">Save</button><td>
         </tr>
     </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
 {% endblock %}

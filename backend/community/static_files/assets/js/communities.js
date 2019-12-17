@@ -68,3 +68,22 @@ function enableEnumeration(e){
         $(elementId).hide();
     }
 }
+
+function getDataFields(e){
+    var id = e.value
+    var element = 'dt_' + id;
+    console.log(element);
+    var value = JSON.parse(document.getElementById(element).textContent);
+    console.log(value);
+    // var rf = function (res) {
+    //     $('#has_fields').val(field_index);
+    //     var button = $('#button_row');
+    //     $(res).insertBefore(button);
+    //     field_index++;
+    // };
+    // var url = '/fieldform';
+    // var data = {
+    //     index: field_index
+    // }
+    // $.post(url, data, rf);
+}

@@ -294,10 +294,10 @@ class PostViews:
     @csrf_exempt
     def create(request, name):
         if request.method == 'GET':
-            form = PostForm()
+            data = list(DataTypeService.get_all(name,'-id'))
             # for key, value in request.session.items():
             #     print('{} => {}'.format(key, value))
-            return render(request, 'community/new_post.html', {'form': form})
+            return render(request, 'community/new_post.html', {'data_types': data})
         elif request.method == 'POST':
             try:
                 data = request.POST.copy()

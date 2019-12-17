@@ -4,18 +4,19 @@ function subscribe(communityName) {
     };
     var url = 'members/';
     var data = {
-        name : communityName
+        name: communityName
     }
-    $.post(url,data,rf);
+    $.post(url, data, rf);
 }
 
 function unsubscribe(communityName) {
     var url = 'members/';
     $.ajax({
-    url: url,
-    type: 'DELETE',
-    success: function(result) {
-        location.reload();
-    }
-});
+        url: url,
+        type: 'DELETE',
+        success: function (result) {
+            location.reload();
+        }
+    });
 }
+

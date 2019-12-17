@@ -63,6 +63,11 @@ def index(request):
         del request.session['current_community']
     return render(request, 'community/index.html')
 
+@csrf_exempt
+def get_fieldform(request):
+    if request.method == 'POST':
+        index = request.POST.get('index')
+        return render(request, 'community/partials/field_form.html', {'index': index})
 
 class CommunityViews:
 
@@ -342,3 +347,14 @@ class PostViews:
                 return HttpResponse(response)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
+
+
+class DataTypeViews:
+
+    def create(request, name):
+        if request.method == 'GET':
+            form = DataTypeForm()
+            print(form)
+            # for key, value in request.session.items():
+            #     print('{} => {}'.format(key, value))
+            return render(request, 'community/new_datatype.html', {'form': form})

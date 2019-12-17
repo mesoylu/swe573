@@ -38,3 +38,11 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+
+
+class DataTypeForm(forms.ModelForm):
+    class Meta:
+        model = DataType
+        fields = '__all__'
+
+

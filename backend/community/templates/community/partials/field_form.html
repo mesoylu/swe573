@@ -1,0 +1,37 @@
+{% load static %}
+<tr>
+    <th colspan="1">
+        <label for="id_field_label_{{ index }}">Label:</label>
+    </th>
+    <td colspan="1">
+        <input type="text" name="field_label_{{ index }}" maxlength="100" required id="id_field_label_{{ index }}">
+    </td>
+    <th colspan="1">
+        <label for="id_field_type_{{ index }}">Type:</label>
+    </th>
+    <td colspan="1">
+        <select onchange="enableEnumeration(this)" name="field_type_{{ index }}" required id="id_field_type_{{ index }}" data-id="{{ index }}">
+            <option value="" selected>Select a type</option>
+            <option value="string">string</option>
+            <option value="integer">integer</option>
+            <option value="float">float</option>
+            <option value="boolean">boolean</option>
+            <option value="image">image</option>
+            <option value="datetime">datetime</option>
+            <option value="uri">uri</option>
+            <option value="enumeration">enumeration</option>
+        </select>
+    </td>
+    <td colspan="1">
+        <input type="checkbox" id="id_is_required_{{ index }}" name="is_required_{{ index }}">
+        <label for="id_is_required_{{ index }}">Is required</label>
+    </td>
+</tr>
+<tr id="enum_{{ index }}" style="display: none;">
+    <th colspan="1">
+        <label for="id_enum_values_{{ index }}">Choices:</label>
+    </th>
+    <td colspan="4">
+    <textarea  name="enum_values_{{ index }}" id="id_enum_values_{{ index }}"></textarea>
+    </td>
+</tr>

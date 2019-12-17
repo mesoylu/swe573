@@ -232,7 +232,7 @@ class DataTypeService:
                 field_label = 'field_label_' + str(i)
                 field_type = 'field_type_' + str(i)
                 field_is_required = 'is_required_' + str(i)
-                if data[field_is_required] == 'on':
+                if field_is_required in data:
                     is_required = True
                 else:
                     is_required = False
@@ -241,9 +241,12 @@ class DataTypeService:
                     'type': data[field_type],
                     'is_required': is_required,
                     'value': None,
-                    'choices': None,
+                    'choices': [],
                     'tags': None
                 }
+                if data[field_type] == 'enumeration':
+                    enum_field = 'enum_values_' + str(i)
+                    field['value'] = data[enum_field].split(',')
                 fields.append(field)
 
         dt.fields = fields

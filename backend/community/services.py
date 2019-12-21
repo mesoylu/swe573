@@ -259,7 +259,7 @@ class DataTypeService:
                 }
                 if data[field_type] == 'enumeration':
                     enum_field = 'enum_values_' + str(i)
-                    field['value'] = data[enum_field].split(',')
+                    field['choices'] = data[enum_field].split(',')
                 fields.append(field)
 
         dt.fields = fields

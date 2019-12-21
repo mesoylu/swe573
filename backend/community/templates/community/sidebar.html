@@ -11,6 +11,7 @@
                 <h2>Welcome {{ request.session.username }}</h2>
             </header>
             <a href="/u/logout" class="button small">Logout</a>
+            <a href="/u/{{ request.session.username }}" class="button small">Profile page</a>
         {% else %}
             <header class="major">
                 <h2>Welcome to the CC</h2>

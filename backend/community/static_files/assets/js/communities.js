@@ -36,6 +36,15 @@ function addDataFieldRow() {
     $.post(url, data, rf);
 }
 
+function deleteDataFieldRow(e){
+    var index = $(e).attr('data-id');
+    var name = '#data_field_' + index;
+    var element = $(name);
+    element.remove();
+    field_index--;
+}
+
+
 function submitDataType() {
     // var form = $('#create_datatype');
     // var rf = function (res) {

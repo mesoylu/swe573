@@ -1,5 +1,5 @@
 {% load static %}
-<tr>
+<tr id="data_field_{{ index }}">
     <th colspan="1">
         <label for="id_field_label_{{ index }}">Label:</label>
     </th>
@@ -27,12 +27,15 @@
         <input type="checkbox" id="id_is_required_{{ index }}" name="is_required_{{ index }}">
         <label for="id_is_required_{{ index }}">Is required</label>
     </td>
+    <td colspan="1">
+        <button type="button" class="button primary small icon solid fa-trash" onclick="deleteDataFieldRow(this)" data-id="{{ index }}"></button>
+    </td>
 </tr>
 <tr id="enum_{{ index }}" style="display: none;">
     <th colspan="1">
         <label for="id_enum_values_{{ index }}">Choices:</label>
     </th>
-    <td colspan="4">
+    <td colspan="5">
     <textarea  name="enum_values_{{ index }}" id="id_enum_values_{{ index }}"></textarea>
     </td>
 </tr>

@@ -38,10 +38,12 @@ function addDataFieldRow() {
 
 function deleteDataFieldRow(e){
     var index = $(e).attr('data-id');
-    var name = '#data_field_' + index;
-    var element = $(name);
-    element.remove();
+    var df_name = '#data_field_' + index;
+    var enum_name = '#enum_' + index;
+    $(df_name).remove();
+    $(enum_name).remove();
     field_index--;
+    // todo should rearrange indexes if a user deletes a datafield other than the last one
 }
 
 

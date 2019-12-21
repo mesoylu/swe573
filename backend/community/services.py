@@ -158,8 +158,21 @@ class PostService:
         p.downvote_count = 0
         p.title = data.get('title')
         p.body = data.get('body')
+        if 'data_type' in data:
+            p.data_type_id = data.get('data_type')
+            p.fields = PostService.field_values(p.data_type_id,data)
         p.save()
         return '/p/' + p.url
+
+    def field_values(data_type_id,data):
+        dt = DataType.objects.get(pk=data_type_id)
+        fields = dt.fields
+        post_fields = []
+        for field in fields:
+            field_name = 'data_field_' + field['label']
+            field['value'] = data.get(field_name)
+            post_fields.append(field)
+        return post_fields
 
     def update(url, data):
         p = Post.objects.get(url=url)

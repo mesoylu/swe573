@@ -27,7 +27,7 @@ urlpatterns = \
     [
         # todo homepage
         path('', views.index),
-        path('fieldform', views.get_fieldform),
+        path('fieldform', views.get_field_form),
         # todo community related views
         path('c/', include([
             path('', views.CommunityViews.index),

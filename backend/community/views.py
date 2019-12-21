@@ -64,10 +64,19 @@ def index(request):
     return render(request, 'community/index.html')
 
 @csrf_exempt
-def get_fieldform(request):
+def get_field_form(request):
     if request.method == 'POST':
         index = request.POST.get('index')
         return render(request, 'community/partials/field_form.html', {'index': index})
+
+@csrf_exempt
+def get_post_fields_form(request):
+    if request.method == 'POST':
+        id = request.POST.get('index')
+        data = DataTypeService.get(id)
+        fields = data[0]['fields']
+        return render(request, 'community/partials/post_fields_form.html', {'fields': fields})
+
 
 class CommunityViews:
 

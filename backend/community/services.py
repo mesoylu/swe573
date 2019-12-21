@@ -256,6 +256,10 @@ class DataTypeService:
         dt.save()
         return '/c/' + name
 
+    def get(id):
+        dt = DataType.objects.filter(pk=id)
+        return DataTypeSerializer(dt, many=True).data
+
     def update(id, user_id, data):
         dt = DataType.objects.get(pk=id)
         if 'fields' in data:

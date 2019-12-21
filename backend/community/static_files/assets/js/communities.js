@@ -81,20 +81,18 @@ function enableEnumeration(e){
 }
 
 function getDataFields(e){
+    $('.data_field').remove();
     var id = e.value
-    var element = 'dt_' + id;
-    console.log(element);
-    var value = JSON.parse(document.getElementById(element).textContent);
-    console.log(value);
-    // var rf = function (res) {
-    //     $('#has_fields').val(field_index);
-    //     var button = $('#button_row');
-    //     $(res).insertBefore(button);
-    //     field_index++;
-    // };
-    // var url = '/fieldform';
-    // var data = {
-    //     index: field_index
-    // }
-    // $.post(url, data, rf);
+    if(id>0) {
+        var rf = function (res) {
+            console.log(res);
+            var button = $('#button_row');
+            $(res).insertBefore(button);
+        };
+        var url = '/postfieldsform';
+        var data = {
+            index: id
+        }
+        $.post(url, data, rf);
+    }
 }

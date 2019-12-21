@@ -1,0 +1,15 @@
+<tr class="data_field">
+    <th colspan="1">
+        <label for="id_{{ field.type }}_{{ field.label }}">{{ field.label }}:</label>
+    </th>
+    <td colspan="5">
+        <input
+                type="text"
+                name="data_field_{{ field.label }}"
+                maxlength="200"
+                {% if field.is_required%}
+                    required
+                {% endif %}
+                id="id_{{ field.type }}_{{ field.label }}">
+    </td>
+</tr>

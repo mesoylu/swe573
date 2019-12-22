@@ -1,7 +1,7 @@
 {% load static %}
 <tr>
-    <th><label for="id_data_type">DataType:</label></th>
-    <td colspan="1">
+    <th colspan="1" width="120px"><label for="id_data_type">DataType:</label></th>
+    <td colspan="5">
         <select onchange="getDataFields(this)" name="data_type" id="id_data_type">
             <option value="" selected>Generic Post</option>
             {% for data_type in data_types %}
@@ -11,10 +11,10 @@
     </td>
 </tr>
 
-{% for data_type in data_types %}
-    {% with data_type.id|slugify as id %}
-        {% with "dt_"|add:id as name %}
-            {{ data_type.fields|json_script:name }}
-        {% endwith %}
-    {% endwith %}
-{% endfor %}
+{#{% for data_type in data_types %}#}
+{#    {% with data_type.id|slugify as id %}#}
+{#        {% with "dt_"|add:id as name %}#}
+{#            {{ data_type.fields|json_script:name }}#}
+{#        {% endwith %}#}
+{#    {% endwith %}#}
+{#{% endfor %}#}

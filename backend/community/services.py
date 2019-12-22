@@ -175,6 +175,9 @@ class PostService:
                 field['value']['latitude'] = data.get(latitude)
                 longitude = field_name + '_long'
                 field['value']['longitude'] = data.get(longitude)
+            elif field['type'] == 'multiple':
+                multiple = field_name
+                field['value'] = data.getlist(multiple)
             elif field['type'] == 'video' or field['type'] == 'audio' or field['type'] == 'uri':
                 title = field_name + '_title'
                 field['value']['title'] = data.get(title)
@@ -268,8 +271,11 @@ class DataTypeService:
                     'tags': None
                 }
                 if data[field_type] == 'enumeration':
-                    enum_field = 'enum_values_' + str(i)
-                    field['choices'] = data[enum_field].split(',')
+                    choice_field = 'choice_values_' + str(i)
+                    field['choices'] = data[choice_field].split(',')
+                elif data[field_type] == 'multiple':
+                    choice_field = 'choice_values_' + str(i)
+                    field['choices'] = data[choice_field].split(',')
                 elif data[field_type] == 'geolocation':
                     field['value'] = {
                         'latitude': None,

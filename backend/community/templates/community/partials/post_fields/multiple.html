@@ -1,1 +1,6 @@
-{#todo add multiple choice field template#}
+{% extends 'community/partials/post_fields/field.html' %}
+{% block output %}
+    {% for value in field.value %}
+        {{ value }}{% if not forloop.last %} ,{% endif %}
+    {% endfor %}
+{% endblock %}

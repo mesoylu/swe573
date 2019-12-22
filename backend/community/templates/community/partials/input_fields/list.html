@@ -1,1 +1,26 @@
-{#todo add list field template#}
+<tr class="data_field">
+    <th colspan="1" width="80px">
+        <label>{{ field.label }}:</label>
+    </th>
+    <td colspan="4" id="id_{{ field.type }}_{{ field.label }}">
+        <input
+                type="text"
+                name="data_field_{{ field.label }}"
+                maxlength="100"
+                {% if field.is_required %}
+                required
+                {% endif %}
+                id="id_{{ field.type }}_{{ field.label }}">
+
+    </td>
+    <td colspan="1" width="140px">
+        <button
+                type="button"
+                class="button primary small icon solid fa-plus"
+                onclick="addListItem(this)"></button>
+        <button
+                type="button"
+                class="button primary small icon solid fa-trash"
+                onclick="removeListItem(this)"></button>
+    </td>
+</tr>

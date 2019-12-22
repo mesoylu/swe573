@@ -85,7 +85,6 @@ function getDataFields(e){
     var id = e.value
     if(id>0) {
         var rf = function (res) {
-            console.log(res);
             var button = $('#button_row');
             $(res).insertBefore(button);
         };
@@ -95,4 +94,17 @@ function getDataFields(e){
         }
         $.post(url, data, rf);
     }
+}
+
+function addListItem(e){
+    var parent = $(e).parent().parent();
+    var clone = parent.clone();
+    clone.children().eq(1).children().eq(0).val("");
+    clone.insertAfter(parent);
+    console.log(clone);
+}
+
+function removeListItem(e){
+    var parent = $(e).parent().parent();
+    parent.remove();
 }

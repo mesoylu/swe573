@@ -175,7 +175,7 @@ class PostService:
                 field['value']['latitude'] = data.get(latitude)
                 longitude = field_name + '_long'
                 field['value']['longitude'] = data.get(longitude)
-            elif field['type'] == 'multiple':
+            elif field['type'] == 'multiple' or field['type'] == 'list':
                 multiple = field_name
                 field['value'] = data.getlist(multiple)
             elif field['type'] == 'video' or field['type'] == 'audio' or field['type'] == 'uri':

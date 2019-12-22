@@ -1,3 +1,5 @@
+import datetime
+
 from .models import *
 from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
@@ -170,11 +172,20 @@ class PostService:
         post_fields = []
         for field in fields:
             field_name = 'data_field_' + field['label']
-            if field['type'] == 'geolocation':
+            if field['type'] == 'integer':
+                field['value'] = int(data.get(field_name))
+            elif field['type'] == 'float':
+                field['value'] = float(data.get(field_name))
+            elif field['type'] == 'boolean':
+                field['value'] = bool(data.get(field_name))
+            # elif field['type'] == 'date':
+            #     date_time_obj = datetime.strptime(data.get(field_name), '%Y-%m-%d')
+            #     field['value'] = date_time_obj.date()
+            elif field['type'] == 'geolocation':
                 latitude = field_name + '_lat'
-                field['value']['latitude'] = data.get(latitude)
+                field['value']['latitude'] = float(data.get(latitude))
                 longitude = field_name + '_long'
-                field['value']['longitude'] = data.get(longitude)
+                field['value']['longitude'] = float(data.get(longitude))
             elif field['type'] == 'multiple' or field['type'] == 'list':
                 multiple = field_name
                 field['value'] = data.getlist(multiple)

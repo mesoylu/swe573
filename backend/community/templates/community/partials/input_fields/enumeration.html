@@ -1,7 +1,13 @@
 {% extends 'community/partials/input_fields/field.html' %}
 
 {% block input %}
-    <select name="data_field_{{ field.label }}" id="id_{{ field.type }}_{{ field.label }}">
+    <select
+            name="data_field_{{ field.label }}"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}">
+    <option value="" selected>Select from below</option>
         {% for choice in field.choices %}
             <option value="{{ choice }}">{{ choice }}</option>
         {% endfor %}

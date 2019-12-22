@@ -177,7 +177,7 @@ class PostService:
             elif field['type'] == 'float':
                 field['value'] = float(data.get(field_name))
             elif field['type'] == 'boolean':
-                field['value'] = bool(data.get(field_name))
+                field['value'] = bool(int(data.get(field_name)))
             # elif field['type'] == 'date':
             #     date_time_obj = datetime.strptime(data.get(field_name), '%Y-%m-%d')
             #     field['value'] = date_time_obj.date()
@@ -200,20 +200,39 @@ class PostService:
 
     def update(url, data):
         p = Post.objects.get(url=url)
-        body = data.get('body', '')
-        if body != '':
-            p.body = body
-        fields = data.get('fields', '')
-        if fields != '':
-            p.fields = fields
+        # body = data.get('body', '')
+        # if body != '':
+        #     p.body = body
+        # fields = data.get('fields', '')
+        # if fields != '':
+        #     p.fields = fields
+        p.body = data.get('body')
+        p.fields = PostService.field_values(p.data_type_id, data)
         p.save()
         return '/p/' + url
 
-    def archive(url):
+    def archive(url,user_id):
         p = Post.objects.get(url=url)
-        p.is_archived = True
-        p.save()
-        return '/p/'
+        u = User.objects.get(pk=user_id)
+        if p.creator_id == user_id:
+            p.is_archived = True
+            p.save()
+            return '/u/' + u.username
+        else:
+            return '/p/' + url
+
+    def update_fields(data):
+        post_fields = data[0]['fields']
+        data_type = list(DataTypeService.get_from_name(data[0]['data_type']))
+        data_type_fields = data_type[0]['fields']
+        i = 0
+        for field in data_type_fields:
+            for post_field in post_fields:
+                if field['label'] == post_field['label']:
+                    field['value'] = post_field['value']
+                    # post_field.remove()
+        return data_type_fields
+
 
 class VoteService:
 
@@ -308,6 +327,10 @@ class DataTypeService:
 
     def get(id):
         dt = DataType.objects.filter(pk=id)
+        return DataTypeSerializer(dt, many=True).data
+
+    def get_from_name(name):
+        dt = DataType.objects.filter(name=name)
         return DataTypeSerializer(dt, many=True).data
 
     def update(id, user_id, data):

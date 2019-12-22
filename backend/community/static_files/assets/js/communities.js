@@ -101,10 +101,20 @@ function addListItem(e){
     var clone = parent.clone();
     clone.children().eq(1).children().eq(0).val("");
     clone.insertAfter(parent);
-    console.log(clone);
 }
 
 function removeListItem(e){
     var parent = $(e).parent().parent();
     parent.remove();
+}
+
+function archivePost(){
+    var url = '';
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function (result) {
+            location.replace(result)
+        }
+    });
 }

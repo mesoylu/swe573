@@ -10,6 +10,19 @@
             {% endif %}
         </div>
     </section>
+    {% if 'username' in request.session %}
+        {% if request.session.username == post.creator %}
+            <table>
+                <tr id="button_row">
+                    <td colspan="6">
+                        {% csrf_token %}
+                        <a href="edit" class="button fit">Edit Post</a>
+                        <button type="button" onclick="archivePost();" class="button primary fit">Archive Post</button>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

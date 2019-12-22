@@ -70,6 +70,7 @@ urlpatterns = \
             path('<url>/', include([
                 path('', views.PostViews.post),
                 path('vote', views.PostViews.vote),
+                path('edit', views.PostViews.edit)
             ]))
         ])),
         # todo wikidata related views

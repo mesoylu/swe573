@@ -7,9 +7,34 @@
             required
             {% endif %}
             id="id_{{ field.type }}_{{ field.label }}">
-    <option value="" selected>Select from below</option>
-        {% for choice in field.choices %}
-            <option value="{{ choice }}">{{ choice }}</option>
-        {% endfor %}
-    </select>
+        {% if field.value %}
+            {% if field.is_required %}
+                {% for choice in field.choices %}
+                    <option
+                            value="{{ choice }}"
+                            {% if field.value == choice %}
+                            selected
+                            {% endif %}
+                    >{{ choice }}</option>
+                {% endfor %}
+                </select>
+            {% else %}
+                <option value="">Select from below</option>
+                {% for choice in field.choices %}
+                    <option
+                            value="{{ choice }}"
+                            {% if field.value == choice %}
+                            selected
+                            {% endif %}
+                    >{{ choice }}</option>
+                {% endfor %}
+                </select>
+            {% endif %}
+        {% else %}
+            <option value="" selected>Select from below</option>
+            {% for choice in field.choices %}
+                <option value="{{ choice }}">{{ choice }}</option>
+            {% endfor %}
+            </select>
+        {% endif %}
 {% endblock %}

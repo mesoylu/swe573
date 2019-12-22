@@ -9,7 +9,11 @@
             {% if field.is_required %}
             required
             {% endif %}
-            id="id_{{ field.type }}_{{ field.label }}_title">
+            id="id_{{ field.type }}_{{ field.label }}_title"
+            {% if field.value.title %}
+            value="{{ field.value.title }}"
+            {% endif %}
+    >
     <input
             placeholder="url"
             type="url"
@@ -18,5 +22,9 @@
             {% if field.is_required %}
             required
             {% endif %}
-            id="id_{{ field.type }}_{{ field.label }}">
+            id="id_{{ field.type }}_{{ field.label }}"
+            {% if field.value.url %}
+            value="{{ field.value.url }}"
+            {% endif %}
+    >
 {% endblock %}

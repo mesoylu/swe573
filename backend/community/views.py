@@ -174,7 +174,8 @@ class UserViews:
             data = list(UserService.get_all(order))
             return JsonResponse(data, safe=False)
 
-    @api_view(["PATCH", "GET", "DELETE"])
+    # @api_view(["PATCH", "GET", "DELETE"])
+    @csrf_exempt
     def user(request, username):
         if request.method == 'GET':
             data = list(UserService.get(username))
@@ -317,8 +318,23 @@ class PostViews:
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 
+    def edit(request, url):
+        if request.method == 'GET':
+            data = PostService.get(url)
+            data[0]['fields'] = PostService.update_fields(data)
+            # return JsonResponse(data, safe=False)
+            return render(request, 'community/edit_post.html', {'post': data[0]})
+        elif request.method == 'POST':
+            try:
+                data = request.POST.copy()
+                redirect_url = PostService.update(url, data)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+
     # todo is the name ok?
-    @api_view(["PATCH", "GET", "DELETE"])
+    # @api_view(["PATCH", "GET", "DELETE"])
+    @csrf_exempt
     def post(request, url):
         if request.method == 'GET':
             data = list(PostService.get(url))
@@ -333,8 +349,9 @@ class PostViews:
                 return HttpResponse(e.__cause__)
         elif request.method == 'DELETE':
             try:
-                redirect_url = PostService.archive(url)
-                return redirect(redirect_url)
+                user_id = request.session['user_id']
+                redirect_url = PostService.archive(url,user_id)
+                return JsonResponse(redirect_url,safe=False)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
 

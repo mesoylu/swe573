@@ -8,7 +8,11 @@
             required
             {% endif %}
             id="id_{{ field.type }}_{{ field.label }}_true"
-            value="true">
+            value="1"
+            {% if field.value == True %}
+            checked
+            {% endif %}
+    >
     <label for="id_{{ field.type }}_{{ field.label }}_true">True</label>
     <input
             type="radio"
@@ -17,6 +21,10 @@
             required
             {% endif %}
             id="id_{{ field.type }}_{{ field.label }}_false"
-            value="false">
+            value="0"
+            {% if field.value == False %}
+            checked
+            {% endif %}
+    >
     <label for="id_{{ field.type }}_{{ field.label }}_false">False</label>
 {% endblock %}

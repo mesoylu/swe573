@@ -1,0 +1,4 @@
+{% extends 'community/partials/post_fields/field.html' %}
+{% block output %}
+    <a target="_blank" href="{{ field.value.url }}">{{ field.value.title }}</a>
+{% endblock %}

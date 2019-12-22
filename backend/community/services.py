@@ -175,6 +175,10 @@ class PostService:
                 field['value']['latitude'] = data.get(latitude)
                 longitude = field_name + '_long'
                 field['value']['longitude'] = data.get(longitude)
+            elif field['type'] == 'video' or field['type'] == 'audio' or field['type'] == 'uri':
+                title = field_name + '_title'
+                field['value']['title'] = data.get(title)
+                field['value']['url'] = data.get(field_name)
             else:
                 field['value'] = data.get(field_name)
             post_fields.append(field)
@@ -270,6 +274,11 @@ class DataTypeService:
                     field['value'] = {
                         'latitude': None,
                         'longitude': None
+                    }
+                elif data[field_type] == 'video' or data[field_type] == 'audio' or data[field_type] == 'uri':
+                    field['value'] = {
+                        'title': None,
+                        'url': None
                     }
                 fields.append(field)
 

@@ -39,9 +39,9 @@ function addDataFieldRow() {
 function deleteDataFieldRow(e){
     var index = $(e).attr('data-id');
     var df_name = '#data_field_' + index;
-    var enum_name = '#enum_' + index;
+    var choice_name = '#choice_' + index;
     $(df_name).remove();
-    $(enum_name).remove();
+    $(choice_name).remove();
     field_index--;
     // todo should rearrange indexes if a user deletes a datafield other than the last one
 }
@@ -68,14 +68,14 @@ function submitDataType() {
     $.post(url, data, rf);
 }
 
-function enableEnumeration(e){
-    if(e.value == 'enumeration'){
+function enableChoices(e){
+    if(e.value == 'enumeration' || e.value == 'multiple'){
         var id = $(e).attr('data-id');
-        var elementId = '#enum_' + id;
+        var elementId = '#choice_' + id;
         $(elementId).show();
     } else {
         var id = $(e).attr('data-id');
-        var elementId = '#enum_' + id;
+        var elementId = '#choice_' + id;
         $(elementId).hide();
     }
 }

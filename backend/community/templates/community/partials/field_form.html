@@ -10,7 +10,7 @@
         <label for="id_field_type_{{ index }}">Type:</label>
     </th>
     <td colspan="1">
-        <select onchange="enableEnumeration(this)" name="field_type_{{ index }}" required id="id_field_type_{{ index }}" data-id="{{ index }}">
+        <select onchange="enableChoices(this)" name="field_type_{{ index }}" required id="id_field_type_{{ index }}" data-id="{{ index }}">
             <option value="" selected>Select a type</option>
             <option value="string">string</option>
             <option value="textarea">textarea</option>
@@ -38,11 +38,11 @@
         <button type="button" class="button primary small icon solid fa-trash" onclick="deleteDataFieldRow(this)" data-id="{{ index }}"></button>
     </td>
 </tr>
-<tr id="enum_{{ index }}" style="display: none;">
+<tr id="choice_{{ index }}" style="display: none;">
     <th colspan="1">
-        <label for="id_enum_values_{{ index }}">Choices:</label>
+        <label for="id_choice_values_{{ index }}">Choices:</label>
     </th>
     <td colspan="5">
-    <textarea  name="enum_values_{{ index }}" id="id_enum_values_{{ index }}"></textarea>
+    <textarea  name="choice_values_{{ index }}" id="id_choice_values_{{ index }}"></textarea>
     </td>
 </tr>

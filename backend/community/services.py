@@ -170,7 +170,13 @@ class PostService:
         post_fields = []
         for field in fields:
             field_name = 'data_field_' + field['label']
-            field['value'] = data.get(field_name)
+            if field['type'] == 'geolocation':
+                latitude = field_name + '_lat'
+                field['value']['latitude'] = data.get(latitude)
+                longitude = field_name + '_long'
+                field['value']['longitude'] = data.get(longitude)
+            else:
+                field['value'] = data.get(field_name)
             post_fields.append(field)
         return post_fields
 
@@ -260,6 +266,11 @@ class DataTypeService:
                 if data[field_type] == 'enumeration':
                     enum_field = 'enum_values_' + str(i)
                     field['choices'] = data[enum_field].split(',')
+                elif data[field_type] == 'geolocation':
+                    field['value'] = {
+                        'latitude': None,
+                        'longitude': None
+                    }
                 fields.append(field)
 
         dt.fields = fields

@@ -3,7 +3,8 @@
 {% block input %}
     <input
             placeholder="latitude"
-            type="text"
+            type="number"
+            step="any"
             name="data_field_{{ field.label }}_lat"
             maxlength="100"
             {% if field.is_required %}
@@ -12,7 +13,8 @@
             id="id_{{ field.type }}_{{ field.label }}_lat">
     <input
             placeholder="longitude"
-            type="text"
+            type="number"
+            step="any"
             name="data_field_{{ field.label }}_long"
             maxlength="100"
             {% if field.is_required %}

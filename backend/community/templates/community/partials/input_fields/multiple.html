@@ -11,9 +11,11 @@
 {#                {% endif %}#}
                 id="id_{{ field.type }}_{{ field.label }}_{{ choice }}"
                 value="{{ choice }}"
-                {% if field.value == choice %}
+                {% for value in field.value %}
+                    {% if value == choice %}
                 checked
-                {% endif %}
+                    {% endif %}
+                {% endfor %}
         >
         <label for="id_{{ field.type }}_{{ field.label }}_{{ choice }}">{{ choice }}</label>
     {% endfor %}

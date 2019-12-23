@@ -77,6 +77,16 @@ def get_post_fields_form(request):
         fields = data[0]['fields']
         return render(request, 'community/partials/post_fields_form.html', {'fields': fields})
 
+@csrf_exempt
+def search(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        response = SearchService.basic_search(query)
+        return render(request, 'community/basic_search.html', {'data': response, 'query':query})
+    elif request.method == 'POST':
+        query = request.POST.get('query')
+        url = '/search?' + query
+        return redirect(url)
 
 class CommunityViews:
 

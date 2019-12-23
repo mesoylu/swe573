@@ -4,6 +4,44 @@ from .models import *
 from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
 
+class SearchService:
+
+    def basic_search(query):
+        response = {}
+        communities = []
+        posts = []
+        users = []
+        c_set = Community.objects.filter(name__icontains=query)
+        i = 0
+        for c in c_set:
+            community = dict()
+            community['name'] = c.name
+            community['image'] = c.image.url
+            communities.append(community)
+            i = i + 1
+        u_set = User.objects.filter(username__icontains=query)
+        i = 0
+        for u in u_set:
+            user = {}
+            user['username'] = u.username
+            user['image'] = u.image.url
+            users.append(user)
+            i = i + 1
+        p_set = Post.objects.filter(title__icontains=query)
+        i = 0
+        for p in p_set:
+            post = {}
+            post['title'] = p.title
+            post['url'] = p.url
+            posts.append(post)
+            i = i + 1
+        response['communities'] = communities
+        response['posts'] = posts
+        response['users'] = users
+        return response
+
+
+
 
 class WikidataService:
 

@@ -29,6 +29,7 @@ urlpatterns = \
         path('', views.index),
         path('fieldform', views.get_field_form),
         path('postfieldsform', views.get_post_fields_form),
+        path('search', views.search),
         # todo community related views
         path('c/', include([
             path('', views.CommunityViews.index),

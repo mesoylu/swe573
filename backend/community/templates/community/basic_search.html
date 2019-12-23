@@ -1,0 +1,53 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <h2>Search results for {{ query }}</h2>
+    <table>
+        {% if 'communities' in data %}
+            {% for community in data.communities %}
+                <tr>
+                    <th colspan="1" width="100px">
+                        <label>Community:</label>
+                    </th>
+                    <td colspan="2">
+                        <a href="/c/{{ community.name }}">{{ community.name }}</a>
+                    </td>
+                    <td colspan="2">
+                        <img src="{{ community.image.url }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        {% if 'posts' in data %}
+            {% for post in data.posts %}
+                <tr>
+                    <th colspan="1" width="100px">
+                        <label>Post:</label>
+                    </th>
+                    <td colspan="4">
+                        <a href="/p/{{ post.url }}">{{ post.title }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        {% if 'users' in data %}
+            {% for user in data.users %}
+                <tr>
+                    <th colspan="1" width="100px">
+                        <label>User:</label>
+                    </th>
+                    <td colspan="2">
+                        <a href="/u/{{ user.username }}">{{ user.username }}</a>
+                    </td>
+                    <td colspan="2">
+                        <img src="{{ user.image.url }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

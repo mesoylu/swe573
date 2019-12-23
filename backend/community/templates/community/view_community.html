@@ -25,7 +25,7 @@
         </div>
         {% if community.image != null %}
             <span class="image object">
-        <img src="{{ community.image }}" alt="{{ community.name }}">
+        <img src="{{ community.image }}" alt="{{ community.name }}" height="400px">
     </span>
         {% endif %}
     </section>
@@ -34,6 +34,8 @@
     {% for post in community.community_posts %}
         {% if post.data_type == null %}
             {% include 'community/partials/generic_post.html' with post=post request=request %}
+        {% else %}
+            {% include 'community/partials/post.html' with post=post request=request %}
         {% endif %}
         <hr/>
     {% endfor %}

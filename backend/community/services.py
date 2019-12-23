@@ -16,7 +16,8 @@ class SearchService:
         for c in c_set:
             community = dict()
             community['name'] = c.name
-            community['image'] = c.image.url
+            if c.image != '':
+                community['image'] = c.image.url
             communities.append(community)
             i = i + 1
         u_set = User.objects.filter(username__icontains=query)
@@ -24,7 +25,8 @@ class SearchService:
         for u in u_set:
             user = {}
             user['username'] = u.username
-            user['image'] = u.image.url
+            if u.image != '':
+                user['image'] = u.image.url
             users.append(user)
             i = i + 1
         p_set = Post.objects.filter(title__icontains=query)

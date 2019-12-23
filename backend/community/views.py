@@ -85,7 +85,7 @@ def search(request):
         return render(request, 'community/basic_search.html', {'data': response, 'query':query})
     elif request.method == 'POST':
         query = request.POST.get('query')
-        url = '/search?' + query
+        url = '/search?query=' + query
         return redirect(url)
 
 class CommunityViews:

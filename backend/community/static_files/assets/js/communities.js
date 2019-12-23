@@ -118,3 +118,14 @@ function archivePost(){
         }
     });
 }
+
+function archiveUser(){
+    var url = '';
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function (result) {
+            location.replace(result)
+        }
+    });
+}

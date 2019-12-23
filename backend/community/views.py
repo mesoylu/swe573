@@ -168,6 +168,7 @@ class CommunityViews:
 
 
 class UserViews:
+    @csrf_exempt
     def index(request):
         if request.method == 'GET':
             order = request.GET.get('order','-date_registered')
@@ -190,7 +191,7 @@ class UserViews:
                 return HttpResponse(e.__cause__)
         elif request.method == 'DELETE':
             try:
-                redirect_url = UserService.archive(username)
+                redirect_url = UserService.archive(username,request.session['username'])
                 return redirect(redirect_url)
             except IntegrityError as e:
                 return HttpResponse(e.__cause__)
@@ -291,7 +292,19 @@ class UserViews:
             redirect_url = '/u/' + u.username
             return redirect(redirect_url)
 
-
+    def edit(request, username):
+        if request.method == 'GET':
+            data = UserService.get(username)
+            # return JsonResponse(data, safe=False)
+            return render(request, 'community/edit_user.html', {'user': data[0]})
+        elif request.method == 'POST':
+            try:
+                data = request.POST.copy()
+                files = request.FILES.copy()
+                redirect_url = UserService.update(username, data, files)
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
 
 
 class PostViews:

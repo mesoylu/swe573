@@ -48,23 +48,26 @@ class UserService:
         user.save()
         return user
 
-    def update(username,data):
+    def update(username, data, files):
         u = User.objects.get(username=username)
         email = data.get('email', '')
         if email != '':
             u.email = email
-        image = data.get('image')
-        if image != '':
+        image = files.get('image')
+        if image is not None:
             u.image = image
         u.save()
         return '/u/' + username
 
-    def archive(username):
+    def archive(username, session_username):
         # todo think about the scenario, when a user is archived, what happens with his/her posts
         u = User.objects.get(username=username)
-        u.is_archived = True
-        u.save()
-        return '/u/'
+        if username == session_username:
+            u.is_archived = True
+            u.save()
+            return '/u/'
+        else:
+            return '/u/' + username
 
     def get_data_types(username, order):
         data_types = DataType.objects.order_by(order).filter(creator__username=username)

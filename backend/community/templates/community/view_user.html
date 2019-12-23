@@ -24,6 +24,19 @@
     {% endfor %}
     </div>
     </section>
+        {% if 'username' in request.session %}
+        {% if request.session.username == user.username %}
+            <table>
+                <tr id="button_row">
+                    <td colspan="6">
+                        {% csrf_token %}
+                        <a href="edit" class="button fit">Edit User</a>
+                        <button type="button" onclick="archiveUser();" class="button primary fit">Archive User</button>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

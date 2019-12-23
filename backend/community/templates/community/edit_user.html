@@ -1,0 +1,28 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <section>
+        <h2>Edit User: {{ user.username }}</h2>
+        <div class="row gtr-200">
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row gtr-uniform">
+                    <div class="col-6 col-12-xsmall" style="align-content: center;">
+                        <label for="email-input">Email:</label>
+                        <input type="text" name="email" maxlength="100" autofocus required id="email-input" value="{{ user.email }}">
+                    </div>
+                    {% if user.image %}
+                        <img src="{{ user.image }}" width="500px">
+                    {% endif %}
+                    <div class="col-6 col-12-xsmall" style="align-content: center;">
+                        <label for="image-input">Profile Image:</label>
+                        <input type="file" name="image" accept="image/*" id="image-input">
+                    </div>
+                    <div class="col-12 col-12-xsmall" style="align-content: center;">
+                        <button type="submit" class="button primary fit">Edit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

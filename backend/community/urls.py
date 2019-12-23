@@ -59,7 +59,8 @@ urlpatterns = \
                 path('datatypes/', views.UserViews.data_types),
                 path('datatype/<id>', views.UserViews.data_type),
                 path('posts/', views.UserViews.posts),
-                path('votes/', views.UserViews.votes)
+                path('votes/', views.UserViews.votes),
+                path('edit', views.UserViews.edit)
             ])),
         ])),
         # todo post related views

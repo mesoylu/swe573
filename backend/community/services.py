@@ -315,7 +315,7 @@ class PostService:
                                 else:
                                     posts = posts.filter(
                                         fields__contains=[{"label": label, "value": data.get(item)}])
-        return PostSerializer(posts, many=True)
+        return PostSerializer(posts, many=True).data
 
 
 class VoteService:

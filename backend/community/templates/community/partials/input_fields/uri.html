@@ -1,0 +1,30 @@
+{% extends 'community/partials/input_fields/field.html' %}
+
+{% block input %}
+    <input
+            placeholder="title"
+            type="text"
+            name="data_field_{{ field.label }}_title"
+            maxlength="100"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}_title"
+            {% if field.value.title %}
+            value="{{ field.value.title }}"
+            {% endif %}
+    >
+    <input
+            placeholder="url"
+            type="url"
+            name="data_field_{{ field.label }}"
+            maxlength="200"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}"
+            {% if field.value.url %}
+            value="{{ field.value.url }}"
+            {% endif %}
+    >
+{% endblock %}

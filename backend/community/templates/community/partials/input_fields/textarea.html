@@ -1,0 +1,14 @@
+{% extends 'community/partials/input_fields/field.html' %}
+
+{% block input %}
+    <textarea
+            name="data_field_{{ field.label }}"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}">
+    {% if field.value %}
+            {{ field.value }}"
+    {% endif %}
+    </textarea>
+{% endblock %}

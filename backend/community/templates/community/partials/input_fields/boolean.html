@@ -1,0 +1,30 @@
+{% extends 'community/partials/input_fields/field.html' %}
+
+{% block input %}
+    <input
+            type="radio"
+            name="data_field_{{ field.label }}"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}_true"
+            value="1"
+            {% if field.value == True %}
+            checked
+            {% endif %}
+    >
+    <label for="id_{{ field.type }}_{{ field.label }}_true">True</label>
+    <input
+            type="radio"
+            name="data_field_{{ field.label }}"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}_false"
+            value="0"
+            {% if field.value == False %}
+            checked
+            {% endif %}
+    >
+    <label for="id_{{ field.type }}_{{ field.label }}_false">False</label>
+{% endblock %}

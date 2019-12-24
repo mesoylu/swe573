@@ -1,0 +1,30 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <section>
+        <h2>New community</h2>
+        <div class="gtr-200">
+            <form enctype="multipart/form-data" method="POST" class="post-form">
+                {% csrf_token %}
+                <input type="hidden" name="creator" value="{{ request.session.user_id }}">
+                <tr>
+                    <th><label for="id_name">Name:</label></th>
+                    <td><input type="text" name="name" maxlength="100" required id="id_name"></td>
+                </tr>
+                <tr>
+                    <th><label for="id_description">Description:</label></th>
+                    <td>
+                        <textarea name="description" cols="40" rows="10" maxlength="300" required id="id_description"></textarea>
+                    </td>
+                </tr>
+                <div>
+                    <th><label for="id_image">Image:</label></th>
+                    <td><input type="file" name="image" accept="image/*" id="id_image"></td>
+                </div>
+                <tr>
+                    <td><button type="submit" class="save btn btn-default fit">Save</button></td>
+                </tr>
+            </form>
+        </div>
+    </section>
+{% endblock %}

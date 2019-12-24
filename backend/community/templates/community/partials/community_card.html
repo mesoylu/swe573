@@ -1,0 +1,24 @@
+{% load static %}
+<section id="banner">
+    <div class="content">
+        <header>
+            <h1>{{ community.name }}</h1>
+        </header>
+        <p>
+            {{ community.description }}
+        </p>
+        <ul class="actions">
+            <li><a href="/c/{{ community.name }}" class="button big">Take a look!</a></li>
+{#            {% if request.session.username in community.members %}#}
+{#                <li><a id="subscribe_{{ community.name }}" onclick="unsubscribe('{{ community.name }}');" class="button big">Unsubscribe</a></li>#}
+{#            {% else %}#}
+{#                <li><a id="subscribe_{{ community.name }}" onclick="subscribe('{{ community.name }}');" class="button big">Subscribe</a></li>#}
+{#            {% endif %}#}
+        </ul>
+    </div>
+{% if community.image != null %}
+    <span class="image object">
+        <img src="{{ community.image }}" alt="{{ community.name }}">
+    </span>
+{% endif %}
+</section>

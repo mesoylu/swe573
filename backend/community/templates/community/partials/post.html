@@ -1,0 +1,14 @@
+{% load static %}
+<div>
+    <h3><a href="/p/{{ post.url }}">{{ post.title }}</a></h3>
+    <p>{{ post.body }}</p>
+</div>
+<table>
+    {% for field in post.fields %}
+        {% with "community/partials/post_fields/"|add:field.type as field_tpye %}
+            {% with field_tpye|add:'.html' as field_template %}
+                {% include field_template with field=field only %}
+            {% endwith %}
+        {% endwith %}
+    {% endfor %}
+</table>

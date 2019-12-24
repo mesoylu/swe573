@@ -3,6 +3,8 @@ import datetime
 from .models import *
 from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
+from qwikidata.entity import WikidataItem, WikidataLexeme, WikidataProperty
+from qwikidata.linked_data_interface import get_entity_dict_from_api
 
 class SearchService:
 
@@ -57,6 +59,10 @@ class WikidataService:
         }
         """ % query
         return return_sparql_query_results(sparql_query)
+
+    def getItem(itemId):
+        item = get_entity_dict_from_api(itemId)
+        return item
 
 
 # todo the methods from class diagram will be written here

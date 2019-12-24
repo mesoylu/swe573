@@ -407,3 +407,4 @@ class DataTypeViews:
             # for key, value in request.session.items():
             #     print('{} => {}'.format(key, value))
             return render(request, 'community/new_datatype.html', {'form': form})
+

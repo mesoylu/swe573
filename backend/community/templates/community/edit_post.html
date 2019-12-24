@@ -1,0 +1,28 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <h2>Edit post: {{ post.title }}</h2>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th colspan="1">
+                    <label for="id_body">Body:</label>
+                </th>
+                <td colspan="5">
+                    <textarea name="body" cols="40" rows="10" maxlength="2000" required id="id_body">{{ post.body }}</textarea>
+                </td>
+            </tr>
+            {% include 'community/partials/post_fields_form.html' with fields=post.fields only %}
+            <tr id="button_row">
+                <td colspan="6">
+                    <button type="submit" class="save btn btn-default fit">Save</button>
+                <td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

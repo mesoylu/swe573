@@ -26,7 +26,10 @@ from . import views
 urlpatterns = \
     [
         # todo homepage
-        # path('', views.index),
+        path('', views.index),
+        path('fieldform', views.get_field_form),
+        path('postfieldsform', views.get_post_fields_form),
+        path('search', views.search),
         # todo community related views
         path('c/', include([
             path('', views.CommunityViews.index),
@@ -34,8 +37,14 @@ urlpatterns = \
             path('<name>/', include([
                 path('', views.CommunityViews.community),
                 path('members/', views.CommunityViews.members),
-                path('datatypes/', views.CommunityViews.data_types),
-                path('posts/', views.CommunityViews.posts)
+                path('datatypes/', include([
+                    path('', views.CommunityViews.data_types),
+                    path('new', views.DataTypeViews.create)
+                ])),
+                path('posts/', include([
+                    path('', views.CommunityViews.posts),
+                    path('new', views.PostViews.create)
+                ]))
             ]))
         ])),
         # todo user related views
@@ -45,13 +54,14 @@ urlpatterns = \
             path('login', views.UserViews.login),
             path('logout', views.UserViews.logout),
             # todo GET signupform?, POST signup
-            # path('signup', views.Signup),
+            path('signup', views.UserViews.signup),
             path('<username>/', include([
                 path('', views.UserViews.user),
                 path('datatypes/', views.UserViews.data_types),
                 path('datatype/<id>', views.UserViews.data_type),
                 path('posts/', views.UserViews.posts),
-                path('votes/', views.UserViews.votes)
+                path('votes/', views.UserViews.votes),
+                path('edit', views.UserViews.edit)
             ])),
         ])),
         # todo post related views
@@ -62,6 +72,7 @@ urlpatterns = \
             path('<url>/', include([
                 path('', views.PostViews.post),
                 path('vote', views.PostViews.vote),
+                path('edit', views.PostViews.edit)
             ]))
         ])),
         # todo wikidata related views

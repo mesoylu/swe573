@@ -132,4 +132,4 @@ MEDIA_ROOT = media_root
 
 MEDIA_URL = '/public/'
 
-AUTH_USER_MODEL = 'community.User'
+

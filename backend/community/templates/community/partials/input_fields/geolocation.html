@@ -1,0 +1,32 @@
+{% extends 'community/partials/input_fields/field.html' %}
+
+{% block input %}
+    <input
+            placeholder="latitude"
+            type="number"
+            step="any"
+            name="data_field_{{ field.label }}_lat"
+            maxlength="100"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}_lat"
+            {% if field.value.latitude %}
+            value="{{ field.value.latitude }}"
+            {% endif %}
+    >
+    <input
+            placeholder="longitude"
+            type="number"
+            step="any"
+            name="data_field_{{ field.label }}_long"
+            maxlength="100"
+            {% if field.is_required %}
+            required
+            {% endif %}
+            id="id_{{ field.type }}_{{ field.label }}_long"
+            {% if field.value.longitude %}
+            value="{{ field.value.longitude }}"
+            {% endif %}
+    >
+{% endblock %}

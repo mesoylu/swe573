@@ -1,6 +1,48 @@
+import datetime
+
 from .models import *
 from .serializations import *
 from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_results)
+
+class SearchService:
+
+    def basic_search(query):
+        response = {}
+        communities = []
+        posts = []
+        users = []
+        c_set = Community.objects.filter(name__icontains=query)
+        i = 0
+        for c in c_set:
+            community = dict()
+            community['name'] = c.name
+            if c.image != '':
+                community['image'] = c.image.url
+            communities.append(community)
+            i = i + 1
+        u_set = User.objects.filter(username__icontains=query)
+        i = 0
+        for u in u_set:
+            user = {}
+            user['username'] = u.username
+            if u.image != '':
+                user['image'] = u.image.url
+            users.append(user)
+            i = i + 1
+        p_set = Post.objects.filter(title__icontains=query)
+        i = 0
+        for p in p_set:
+            post = {}
+            post['title'] = p.title
+            post['url'] = p.url
+            posts.append(post)
+            i = i + 1
+        response['communities'] = communities
+        response['posts'] = posts
+        response['users'] = users
+        return response
+
+
 
 
 class WikidataService:
@@ -21,9 +63,6 @@ class WikidataService:
 # todo learn how to use sessions in order to use logged in user id type of thing
 class UserService:
 
-    def login(data):
-        return User.objects.values()
-
     def getUser(username):
         # return User.objects.filter(username=username).values_list(
         #     'username',
@@ -40,23 +79,35 @@ class UserService:
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
-    def update(username,data):
+    def create(data,file):
+        user = User()
+        user.username = data['username']
+        user.password = data['password']
+        user.image = file['image']
+        user.email = data['email']
+        user.save()
+        return user
+
+    def update(username, data, files):
         u = User.objects.get(username=username)
         email = data.get('email', '')
         if email != '':
             u.email = email
-        image = data.get('image')
-        if image != '':
+        image = files.get('image')
+        if image is not None:
             u.image = image
         u.save()
         return '/u/' + username
 
-    def archive(username):
+    def archive(username, session_username):
         # todo think about the scenario, when a user is archived, what happens with his/her posts
         u = User.objects.get(username=username)
-        u.is_archived = True
-        u.save()
-        return '/u/'
+        if username == session_username:
+            u.is_archived = True
+            u.save()
+            return '/u/'
+        else:
+            return '/u/' + username
 
     def get_data_types(username, order):
         data_types = DataType.objects.order_by(order).filter(creator__username=username)
@@ -89,14 +140,15 @@ class CommunityService:
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data
 
-    def create(data):
+    def create(data,image):
         c = Community()
         c.name = data.get('name', '')
         c.description = data.get('description', '')
-        c.image = data.get('image')
+        c.image = image
         creator = User.objects.get(pk=data.get('creator', ''))
         c.creator = creator
         c.save()
+        c.members.set([creator.id])
         return '/c/' + c.name
 
     def update(name, data):
@@ -141,22 +193,89 @@ class PostService:
         post = Post.objects.filter(url=url)
         return PostSerializer(post,many=True).data
 
+    def create(url, user_id, data, files):
+        p = Post()
+        c = Community.objects.get(name=url)
+        u = User.objects.get(id=user_id)
+        p.community = c
+        p.creator = u
+        p.upvote_count = 0
+        p.downvote_count = 0
+        p.title = data.get('title')
+        p.body = data.get('body')
+        if 'data_type' in data:
+            p.data_type_id = data.get('data_type')
+            p.fields = PostService.field_values(p.data_type_id,data)
+        p.save()
+        return '/p/' + p.url
+
+    def field_values(data_type_id,data):
+        dt = DataType.objects.get(pk=data_type_id)
+        fields = dt.fields
+        post_fields = []
+        for field in fields:
+            field_name = 'data_field_' + field['label']
+            if field['type'] == 'integer':
+                field['value'] = int(data.get(field_name))
+            elif field['type'] == 'float':
+                field['value'] = float(data.get(field_name))
+            elif field['type'] == 'boolean':
+                field['value'] = bool(int(data.get(field_name)))
+            # elif field['type'] == 'date':
+            #     date_time_obj = datetime.strptime(data.get(field_name), '%Y-%m-%d')
+            #     field['value'] = date_time_obj.date()
+            elif field['type'] == 'geolocation':
+                latitude = field_name + '_lat'
+                field['value']['latitude'] = float(data.get(latitude))
+                longitude = field_name + '_long'
+                field['value']['longitude'] = float(data.get(longitude))
+            elif field['type'] == 'multiple' or field['type'] == 'list':
+                multiple = field_name
+                field['value'] = data.getlist(multiple)
+            elif field['type'] == 'video' or field['type'] == 'audio' or field['type'] == 'uri':
+                title = field_name + '_title'
+                field['value']['title'] = data.get(title)
+                field['value']['url'] = data.get(field_name)
+            else:
+                field['value'] = data.get(field_name)
+            post_fields.append(field)
+        return post_fields
+
     def update(url, data):
         p = Post.objects.get(url=url)
-        body = data.get('body', '')
-        if body != '':
-            p.body = body
-        fields = data.get('fields', '')
-        if fields != '':
-            p.fields = fields
+        # body = data.get('body', '')
+        # if body != '':
+        #     p.body = body
+        # fields = data.get('fields', '')
+        # if fields != '':
+        #     p.fields = fields
+        p.body = data.get('body')
+        p.fields = PostService.field_values(p.data_type_id, data)
         p.save()
         return '/p/' + url
 
-    def archive(url):
+    def archive(url,user_id):
         p = Post.objects.get(url=url)
-        p.is_archived = True
-        p.save()
-        return '/p/'
+        u = User.objects.get(pk=user_id)
+        if p.creator_id == user_id:
+            p.is_archived = True
+            p.save()
+            return '/u/' + u.username
+        else:
+            return '/p/' + url
+
+    def update_fields(data):
+        post_fields = data[0]['fields']
+        data_type = list(DataTypeService.get_from_name(data[0]['data_type']))
+        data_type_fields = data_type[0]['fields']
+        i = 0
+        for field in data_type_fields:
+            for post_field in post_fields:
+                if field['label'] == post_field['label']:
+                    field['value'] = post_field['value']
+                    # post_field.remove()
+        return data_type_fields
+
 
 class VoteService:
 
@@ -204,12 +323,58 @@ class DataTypeService:
         dt = DataType()
         dt.name = data['name']
         dt.description = data['description']
-        dt.fields = data['fields']
-        dt.tags = data['tags']
+        fields = []
+        if int(data['has_fields']) > 0:
+            i = 0
+            while i < int(data['has_fields']):
+                i += 1
+                field_label = 'field_label_' + str(i)
+                field_type = 'field_type_' + str(i)
+                field_is_required = 'is_required_' + str(i)
+                if field_is_required in data:
+                    is_required = True
+                else:
+                    is_required = False
+                field = {
+                    'label': data[field_label],
+                    'type': data[field_type],
+                    'is_required': is_required,
+                    'value': None,
+                    'choices': [],
+                    'tags': None
+                }
+                if data[field_type] == 'enumeration':
+                    choice_field = 'choice_values_' + str(i)
+                    field['choices'] = data[choice_field].split(',')
+                elif data[field_type] == 'multiple':
+                    choice_field = 'choice_values_' + str(i)
+                    field['choices'] = data[choice_field].split(',')
+                elif data[field_type] == 'geolocation':
+                    field['value'] = {
+                        'latitude': None,
+                        'longitude': None
+                    }
+                elif data[field_type] == 'video' or data[field_type] == 'audio' or data[field_type] == 'uri':
+                    field['value'] = {
+                        'title': None,
+                        'url': None
+                    }
+                fields.append(field)
+
+        dt.fields = fields
+        # dt.tags = data['tags']
         dt.creator = user
         dt.community = community
         dt.save()
         return '/c/' + name
+
+    def get(id):
+        dt = DataType.objects.filter(pk=id)
+        return DataTypeSerializer(dt, many=True).data
+
+    def get_from_name(name):
+        dt = DataType.objects.filter(name=name)
+        return DataTypeSerializer(dt, many=True).data
 
     def update(id, user_id, data):
         dt = DataType.objects.get(pk=id)

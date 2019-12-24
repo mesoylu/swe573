@@ -60,7 +60,7 @@ class DataFieldTypes(Enum):
         return self
 
 
-class User(AbstractUser):
+class User(models.Model):
     username = models.SlugField(
         max_length=100,
         unique=True
@@ -158,7 +158,7 @@ class Membership(models.Model):
     )
 
     def __str__(self):
-        return self.community.name + " : " + self.user.username + " : " + self.role
+        return self.community.name + " : " + self.user.username
 
 
 class WikidataItem(models.Model):
@@ -251,7 +251,8 @@ class DataType(models.Model):
 class Post(models.Model):
     data_type = models.ForeignKey(
         DataType,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True
     )
     title = models.CharField(
         max_length=100

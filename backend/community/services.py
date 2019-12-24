@@ -312,6 +312,9 @@ class PostService:
                                 elif field['type'] == 'boolean':
                                     posts = posts.filter(
                                         fields__contains=[{"label": label, "value": bool(int(data.get(item)))}])
+                                else:
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": data.get(item)}])
         return PostSerializer(posts, many=True)
 
 

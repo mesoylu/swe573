@@ -21,6 +21,8 @@
                     <li><a id="subscribe_{{ community.name }}" onclick="subscribe('{{ community.name }}');"
                            class="button big">Subscribe</a></li>
                 {% endif %}
+                <li><a id="search_{{ community.name }}" href="search"
+                       class="button big">Search in community</a></li>
             </ul>
         </div>
         {% if community.image != null %}
@@ -30,16 +32,16 @@
         {% endif %}
     </section>
     <section>
-    <div class="row">
-    {% for post in community.community_posts %}
-        {% if post.data_type == null %}
-            {% include 'community/partials/generic_post.html' with post=post request=request %}
-        {% else %}
-            {% include 'community/partials/post.html' with post=post request=request %}
-        {% endif %}
-        <hr/>
-    {% endfor %}
-    </div>
+        <div class="row">
+            {% for post in community.community_posts %}
+                {% if post.data_type == null %}
+                    {% include 'community/partials/generic_post.html' with post=post request=request %}
+                {% else %}
+                    {% include 'community/partials/post.html' with post=post request=request %}
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        </div>
     </section>
 {% endblock %}
 

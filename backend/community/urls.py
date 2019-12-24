@@ -37,6 +37,8 @@ urlpatterns = \
             path('new', views.CommunityViews.create),
             path('<name>/', include([
                 path('', views.CommunityViews.community),
+                path('search', views.CommunityViews.search),
+                path('search_results', views.CommunityViews.search_results),
                 path('members/', views.CommunityViews.members),
                 path('datatypes/', include([
                     path('', views.CommunityViews.data_types),

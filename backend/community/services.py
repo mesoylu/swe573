@@ -281,6 +281,39 @@ class PostService:
                     # post_field.remove()
         return data_type_fields
 
+    def search(url, data):
+        posts = Post.objects.all()
+        data_type_fields = None
+        if 'data_type' in data:
+            posts = posts.filter(data_type__id=data.get('data_type'))
+            data_type = DataType.objects.get(pk=data.get('data_type'))
+            data_type_fields = data_type.fields
+        else:
+            posts = posts.filter(data_type=None,community__name=url)
+
+        for item in data:
+            if item == 'data_type':
+                pass
+            else:
+                if item == 'title':
+                    posts = posts.filter(title__icontains=data.get('title'))
+                elif item == 'body':
+                    posts = posts.filter(body__icontains=data.get('body'))
+                else:
+                    if data_type_fields is not None:
+                        for field in data_type_fields:
+                            label = item.replace('data_field_','')
+                            if field['label'] == label:
+                                if field['type'] == 'float':
+                                    posts = posts.filter(fields__contains=[{"label": label, "value": float(data.get(item))}])
+                                elif field['type'] == 'integer':
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": int(data.get(item))}])
+                                elif field['type'] == 'boolean':
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": bool(int(data.get(item)))}])
+        return PostSerializer(posts, many=True)
+
 
 class VoteService:
 

@@ -1,0 +1,62 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <h2>Search results for {{ posts.data_type.title }}</h2>
+    <table>
+    {{ posts }}
+{#        {% if 'communities' in data %}#}
+{#            {% for community in data.communities %}#}
+{#                <tr>#}
+{#                    <th colspan="1" width="100px">#}
+{#                        <label>Community:</label>#}
+{#                    </th>#}
+{#                    {% if community.image == null %}#}
+{#                        <td colspan="4">#}
+{#                            {% else %}#}
+{#                        <td colspan="2">#}
+{#                    {% endif %}#}
+{#                    <a href="/c/{{ community.name }}">{{ community.name }}</a>#}
+{#                    </td>#}
+{#                    {% if community.image != null %}#}
+{#                        <td colspan="2">#}
+{#                            <img src="{{ community.image }}" alt="{{ community.name }}" width="600px">#}
+{#                        </td>#}
+{#                    {% endif %}#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+{#        {% if 'posts' in data %}#}
+{#            {% for post in data.posts %}#}
+{#                <tr>#}
+{#                    <th colspan="1" width="100px">#}
+{#                        <label>Post:</label>#}
+{#                    </th>#}
+{#                    <td colspan="4">#}
+{#                        <a href="/p/{{ post.url }}">{{ post.title }}</a>#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+{#        {% if 'users' in data %}#}
+{#            {% for user in data.users %}#}
+{#                <tr>#}
+{#                    <th colspan="1" width="100px">#}
+{#                        <label>User:</label>#}
+{#                    </th>#}
+{#                    <td colspan="2">#}
+{#                        <a href="/u/{{ user.username }}">{{ user.username }}</a>#}
+{#                    </td>#}
+{#                    {% if user.image != null %}#}
+{#                        <td colspan="2">#}
+{#                            <img src="{{ user.image }}" alt="{{ user.username }}" width="600px">#}
+{#                        </td>#}
+{#                    {% endif %}#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

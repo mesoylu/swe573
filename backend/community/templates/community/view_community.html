@@ -1,0 +1,50 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% block content %}
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ community.name }}</h1>
+            </header>
+            <p>
+                {{ community.description }}
+            </p>
+            <ul class="actions">
+                {% if request.session.username in community.members %}
+                    <li><a id="subscribe_{{ community.name }}" onclick="unsubscribe('{{ community.name }}');"
+                           class="button big">Unsubscribe</a></li>
+                    <li><a id="datatype_{{ community.name }}" href="/c/{{ community.name }}/datatypes/new"
+                           class="button big">Create Datatype</a></li>
+                    <li><a id="post_{{ community.name }}" href="/c/{{ community.name }}/posts/new" class="button big">Create
+                        Post</a></li>
+                {% else %}
+                    <li><a id="subscribe_{{ community.name }}" onclick="subscribe('{{ community.name }}');"
+                           class="button big">Subscribe</a></li>
+                {% endif %}
+                <li><a id="search_{{ community.name }}" href="search"
+                       class="button big">Search in community</a></li>
+            </ul>
+        </div>
+        {% if community.image != null %}
+            <span class="image object">
+        <img src="{{ community.image }}" alt="{{ community.name }}" height="400px">
+    </span>
+        {% endif %}
+    </section>
+    <section>
+        <div class="row">
+            {% for post in community.community_posts %}
+                {% if post.data_type == null %}
+                    {% include 'community/partials/generic_post.html' with post=post request=request %}
+                {% else %}
+                    {% include 'community/partials/post.html' with post=post request=request %}
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

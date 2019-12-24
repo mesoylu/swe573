@@ -1,0 +1,27 @@
+{% extends 'community/layout.html' %}
+{% load static %}
+{% load community_extras %}
+{% block content %}
+    <h2>Search results for {{ query }}</h2>
+    <table id="sparql_results">
+        {% for wikidata in data.results.bindings %}
+            {% with wikidata.item.value|get_url:"/" as wikidata_itemId%}
+            <tr>
+                <th colspan="1" width="100px">
+                    <label>{{ wikidata.itemLabel.value }}:</label>
+                </th>
+                <td colspan="2">
+                    <a href="{{ wikidata.item.value }}">{{ wikidata_itemId }}</a>
+                </td>
+                <td colspan="2">
+                    {{ wikidata.itemDescription.value }}
+                </td>
+            </tr>
+            {% endwith %}
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/communities.js' %}"></script>
+{% endblock %}

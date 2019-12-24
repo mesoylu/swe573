@@ -1,0 +1,6 @@
+{% extends 'community/partials/post_fields/field.html' %}
+{% block output %}
+    {% for value in field.value %}
+        <div>{{ value }}</div>
+    {% endfor %}
+{% endblock %}

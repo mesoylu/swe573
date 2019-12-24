@@ -9,12 +9,16 @@
                     <th colspan="1" width="100px">
                         <label>Community:</label>
                     </th>
-                    <td colspan="2">
-                        <a href="/c/{{ community.name }}">{{ community.name }}</a>
+                    {% if community.image == null %}
+                        <td colspan="4">
+                            {% else %}
+                        <td colspan="2">
+                    {% endif %}
+                    <a href="/c/{{ community.name }}">{{ community.name }}</a>
                     </td>
                     {% if community.image != null %}
                         <td colspan="2">
-                            <img src="{{ community.image}}" alt="{{ community.name }}">
+                            <img src="{{ community.image }}" alt="{{ community.name }}" width="600px">
                         </td>
                     {% endif %}
                 </tr>
@@ -43,7 +47,7 @@
                     </td>
                     {% if user.image != null %}
                         <td colspan="2">
-                            <img src="{{ user.image }}" alt="{{ user.username }}">
+                            <img src="{{ user.image }}" alt="{{ user.username }}" width="600px">
                         </td>
                     {% endif %}
                 </tr>

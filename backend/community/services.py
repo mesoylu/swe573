@@ -6,6 +6,7 @@ from qwikidata.sparql import (get_subclasses_of_item, return_sparql_query_result
 from qwikidata.entity import WikidataItem, WikidataLexeme, WikidataProperty
 from qwikidata.linked_data_interface import get_entity_dict_from_api
 
+
 class SearchService:
 
     def basic_search(query):
@@ -45,8 +46,6 @@ class SearchService:
         return response
 
 
-
-
 class WikidataService:
 
     def query(query):
@@ -60,7 +59,7 @@ class WikidataService:
         """ % query
         return return_sparql_query_results(sparql_query)
 
-    def getItem(itemId):
+    def get_item(itemId):
         item = get_entity_dict_from_api(itemId)
         return item
 
@@ -85,7 +84,7 @@ class UserService:
         user = User.objects.filter(username=username)
         return UserSerializer(user, many=True).data
 
-    def create(data,file):
+    def create(data, file):
         user = User()
         user.username = data['username']
         user.password = data['password']
@@ -119,7 +118,7 @@ class UserService:
         data_types = DataType.objects.order_by(order).filter(creator__username=username)
         return DataTypeSerializer(data_types, many=True).data
 
-    def get_posts(username,order):
+    def get_posts(username, order):
         posts = Post.objects.order_by(order).filter(creator__username=username)
         return PostSerializer(posts, many=True).data
 
@@ -134,7 +133,7 @@ class CommunityService:
         community = Community.objects.filter(name=name)
         return CommunitySerializer(community, many=True).data
 
-    def get_members(name,order):
+    def get_members(name, order):
         return Community.objects.filter(name=name).order_by(order).values(
             'members__id',
             'members__username',
@@ -142,11 +141,11 @@ class CommunityService:
             'membership__date_joined'
         )
 
-    def get_posts(name,order):
+    def get_posts(name, order):
         posts = Post.objects.order_by(order).filter(community__name=name)
         return PostSerializer(posts, many=True).data
 
-    def create(data,image):
+    def create(data, image):
         c = Community()
         c.name = data.get('name', '')
         c.description = data.get('description', '')
@@ -174,14 +173,14 @@ class CommunityService:
         c.save()
         return '/c/'
 
-    def subscribe(name,user_id):
+    def subscribe(name, user_id):
         m = Membership()
         m.community = Community.objects.get(name=name)
         m.user = User.objects.get(pk=user_id)
         m.save()
         return '/c/' + name
 
-    def unsubscribe(name,user_id):
+    def unsubscribe(name, user_id):
         c = Community.objects.get(name=name)
         u = User.objects.get(pk=user_id)
         m = Membership.objects.get(user=u, community=c)
@@ -197,7 +196,7 @@ class PostService:
 
     def get(url):
         post = Post.objects.filter(url=url)
-        return PostSerializer(post,many=True).data
+        return PostSerializer(post, many=True).data
 
     def create(url, user_id, data, files):
         p = Post()
@@ -211,11 +210,11 @@ class PostService:
         p.body = data.get('body')
         if 'data_type' in data:
             p.data_type_id = data.get('data_type')
-            p.fields = PostService.field_values(p.data_type_id,data)
+            p.fields = PostService.field_values(p.data_type_id, data)
         p.save()
         return '/p/' + p.url
 
-    def field_values(data_type_id,data):
+    def field_values(data_type_id, data):
         dt = DataType.objects.get(pk=data_type_id)
         fields = dt.fields
         post_fields = []
@@ -260,7 +259,7 @@ class PostService:
         p.save()
         return '/p/' + url
 
-    def archive(url,user_id):
+    def archive(url, user_id):
         p = Post.objects.get(url=url)
         u = User.objects.get(pk=user_id)
         if p.creator_id == user_id:
@@ -281,6 +280,42 @@ class PostService:
                     field['value'] = post_field['value']
                     # post_field.remove()
         return data_type_fields
+
+    def search(url, data):
+        posts = Post.objects.all()
+        data_type_fields = None
+        if 'data_type' in data:
+            posts = posts.filter(data_type__id=data.get('data_type'))
+            data_type = DataType.objects.get(pk=data.get('data_type'))
+            data_type_fields = data_type.fields
+        else:
+            posts = posts.filter(data_type=None,community__name=url)
+
+        for item in data:
+            if item == 'data_type':
+                pass
+            else:
+                if item == 'title':
+                    posts = posts.filter(title__icontains=data.get('title'))
+                elif item == 'body':
+                    posts = posts.filter(body__icontains=data.get('body'))
+                else:
+                    if data_type_fields is not None:
+                        for field in data_type_fields:
+                            label = item.replace('data_field_','')
+                            if field['label'] == label:
+                                if field['type'] == 'float':
+                                    posts = posts.filter(fields__contains=[{"label": label, "value": float(data.get(item))}])
+                                elif field['type'] == 'integer':
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": int(data.get(item))}])
+                                elif field['type'] == 'boolean':
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": bool(int(data.get(item)))}])
+                                else:
+                                    posts = posts.filter(
+                                        fields__contains=[{"label": label, "value": data.get(item)}])
+        return PostSerializer(posts, many=True).data
 
 
 class VoteService:
@@ -394,7 +429,7 @@ class DataTypeService:
         return {"success": True}
 
     def archive(id, user_id):
-        dt = DataType.objects.get(creator__pk=user_id,pk=id)
+        dt = DataType.objects.get(creator__pk=user_id, pk=id)
         if dt is not None:
             dt.is_archived = True
             dt.save()

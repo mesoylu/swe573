@@ -88,6 +88,19 @@ def search(request):
         url = '/search?query=' + query
         return redirect(url)
 
+@csrf_exempt
+def sparql_query(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        response = WikidataService.query(query)
+        # return JsonResponse(response, safe=False)
+        return render(request, 'community/sparql_results.html', {'data': response, 'query': query})
+    elif request.method == 'POST':
+        query = request.POST.get('query')
+        url = '/sparql?query=' + query
+        return redirect(url)
+
+
 class CommunityViews:
 
     @csrf_exempt
@@ -99,6 +112,39 @@ class CommunityViews:
             return render(request, 'community/communities.html',{'communities': data})
         # elif request.method == 'POST':
         #    return JsonResponse('elelele', safe=False)
+
+    @csrf_exempt
+    def search(request, name):
+        if request.method == 'GET':
+            data = list(DataTypeService.get_all(name, '-id'))
+            return render(request, 'community/search_form.html', {'data_types': data, 'community_name': name})
+        elif request.method == 'POST':
+            try:
+                query_string = '?'
+                data = request.POST.copy()
+                for item in data:
+                    if item == 'csrfmiddlewaretoken':
+                        pass
+                    else:
+                        if data.get(item) != '':
+                            query_string = query_string + item + '='
+                            query_string = query_string + data.get(item) + '&'
+                redirect_url = '/c/' + name + '/search_results' + query_string
+                return redirect(redirect_url)
+            except IntegrityError as e:
+                return HttpResponse(e.__cause__)
+
+    def search_results(request, name):
+        data = request.GET.copy()
+        posts = PostService.search(name, data)
+        return render(request, 'community/advanced_search.html', {'posts':posts})
+        # if request.method == 'GET':
+        #     try:
+        #         data = request.POST.copy()
+        #         posts = PostService.search(name, data)
+        #         return render(request, 'community/advanced_search.html', {'posts': posts, 'community_name': name})
+        #     except IntegrityError as e:
+        #         return HttpResponse(e.__cause__)
 
     @api_view(["PATCH","GET","DELETE"])
     def community(request,name):

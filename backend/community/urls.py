@@ -30,12 +30,15 @@ urlpatterns = \
         path('fieldform', views.get_field_form),
         path('postfieldsform', views.get_post_fields_form),
         path('search', views.search),
+        path('sparql', views.sparql_query),
         # todo community related views
         path('c/', include([
             path('', views.CommunityViews.index),
             path('new', views.CommunityViews.create),
             path('<name>/', include([
                 path('', views.CommunityViews.community),
+                path('search', views.CommunityViews.search),
+                path('search_results', views.CommunityViews.search_results),
                 path('members/', views.CommunityViews.members),
                 path('datatypes/', include([
                     path('', views.CommunityViews.data_types),

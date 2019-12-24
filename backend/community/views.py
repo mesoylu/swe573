@@ -88,6 +88,19 @@ def search(request):
         url = '/search?query=' + query
         return redirect(url)
 
+@csrf_exempt
+def sparql_query(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        response = WikidataService.query(query)
+        # return JsonResponse(response, safe=False)
+        return render(request, 'community/sparql_results.html', {'data': response, 'query': query})
+    elif request.method == 'POST':
+        query = request.POST.get('query')
+        url = '/sparql?query=' + query
+        return redirect(url)
+
+
 class CommunityViews:
 
     @csrf_exempt
